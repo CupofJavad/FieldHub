@@ -8,13 +8,13 @@
 ## Current focus
 
 1. **Phase 0:** M0.6 and M0.7 Done (server pre-start; first push to GitHub).
-2. **Phase 1:** GitHub sync **after Phase 1 complete** (when M1.2 and M1.5 are Done). See `agents/prompts/PHASE1_AGENT_RUN_PROMPTS.md` (Archie/Jordan block). Keep CHECKLIST and coordination updated.
+2. **Phase 1:** GitHub sync Done (2026-02-18). Next: GitHub sync **after Phase 2 complete**; keep CHECKLIST and coordination updated.
 3. **Phase 4 (later):** M4.4 (security, audit log, rate limits, backup, monitoring); M4.5 (production deployment with Quinn); GitHub sync at each phase end.
 
 ## Next actions
 
 - M0.6 done: Server pre-start (Lacie_Free check doc’d; `scripts/server-env-setup.sh` for dev/test/prod; dependencies doc’d in PRE_START_ACTIONS_AND_SERVER.md).
-- **Now:** No Pending task in Phase 0 or Phase 1. When M1.2 and M1.5 are Done: run Phase 1 GitHub sync (commit, push to `origin main`; never commit `.env` or secrets); update STATUS, CHECKLIST, and `agents/live/build-notes/Jordan.md`. **Later:** M4.4, M4.5 when Phase 4 starts.
+- **Now:** Phase 1 sync done. No Pending task until Phase 4. When Phase 2 is complete: run Phase 2 GitHub sync (commit, push; never commit `.env` or secrets). **Later:** M4.4, M4.5 when Phase 4 starts.
 
 ## Where to find new work
 
