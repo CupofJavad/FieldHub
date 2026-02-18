@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-02-18 – Phase 2 in-progress GitHub sync
+
+- **Requested:** Run Phase 2 GitHub sync per CHECKLIST/STATUS.
+- **CHECKLIST state:** Phase 2 not fully complete — M2.1 Done, M2.3 Done; M2.2, M2.4, M2.5 still Pending (Riley, Sam). Ran **in-progress sync** so current work is backed up and repo is up to date.
+- **Git:** Verified .env not staged. Committed all changes as `6cf6563`: "TGND Phase 2 in progress: M2.1 service-type engine, M2.3 ext-warranty/webhooks, Phase2 handoff/prompts/checklist, portal scaffold, migrations; agent updates". Pushed to `origin main`. Push succeeded.
+- **Full Phase 2 sync:** When M2.2, M2.4, M2.5 are Done, run another commit/push and mark Phase 2 complete in STATUS.
+
+---
+
 ## 2026-02-18 – Phase 1 GitHub sync
 
 - **Assignment:** After M1.2 and M1.5 Done, run Phase 1 GitHub sync and update coordination.
