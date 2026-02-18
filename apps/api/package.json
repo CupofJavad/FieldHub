@@ -1,0 +1,25 @@
+{
+  "name": "@tgnd/api",
+  "version": "1.0.0",
+  "description": "TGND REST API – work orders",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node scripts/run-migration.js",
+    "test": "node --test src/routes/work-orders.test.js"
+  },
+  "dependencies": {
+    "@tgnd/canonical-model": "file:../../packages/canonical-model",
+    "@tgnd/logger": "file:../../packages/logger",
+    "@tgnd/outbound-adapters": "file:../../packages/outbound-adapters",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "@tgnd/inbound-adapters": "file:../../packages/inbound-adapters"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  },
+  "author": "TGND",
+  "license": "UNLICENSED"
+}

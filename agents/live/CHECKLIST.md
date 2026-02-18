@@ -1,7 +1,7 @@
 # TGND Live Checklist – Single Source of Truth for Agent Tasks
 
-**Last updated:** 2026-02-18  
-**Current focus:** Complete M0.7 (first push), then Phase 1 (Corey M1.1/M1.3, Dana M1.2, Sam M1.5). See `agents/live/STATUS.md`.  
+**Last updated:** 2026-02-18 (Archie: Phase 1 complete, GitHub sync)  
+**Current focus:** Phase 1 complete. Phase 2 – Corey (M2.1), Riley (M2.2, M2.5), Dana (M2.3), Sam (M2.4). When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
 **Rules:** Each agent updates their own rows when they complete work. Check this file periodically for new tasks assigned to you. Do not remove or alter other agents’ task rows without coordination.
 
 ---
@@ -24,11 +24,11 @@
 
 | ID | Task | Owner | Status |
 |----|------|--------|--------|
-| M1.1 | REST API: POST/GET/PATCH /v1/work-orders, canonical model, idempotency | Corey | ☐ Pending |
-| M1.2 | One provider mapping (mock or real OEM/CSV/API) | Dana | ☐ Pending |
-| M1.3 | Postgres: work_orders, providers, service_type_config; lifecycle state machine | Corey | ☐ Pending |
+| M1.1 | REST API: POST/GET/PATCH /v1/work-orders, canonical model, idempotency | Corey | ☑ Done 2026-02-18 |
+| M1.2 | One provider mapping (mock or real OEM/CSV/API) | Dana | ☑ Done 2026-02-18 |
+| M1.3 | Postgres: work_orders, providers, service_type_config; lifecycle state machine | Corey | ☑ Done 2026-02-18 |
 | M1.4 | One field platform adapter (e.g. WorkMarket): push job, platform_job_id, status sync | Sam | ☑ Done 2026-02-17 |
-| M1.5 | Deliverable: Provider creates WOs; system assigns to one platform; completion updates WO | All | ☐ Pending |
+| M1.5 | Deliverable: Provider creates WOs; system assigns to one platform; completion updates WO | All | ☑ Done 2026-02-18 |
 
 ---
 
@@ -71,6 +71,10 @@
 ## How to use this checklist
 
 1. **You are an agent:** Open `agents/live/instructions/<YOUR_NAME>.md` for your current focus.
-2. **When you complete a task:** Update the Status for your task in this file (e.g. change `☐ Pending` to `☑ Done` and add date).
-3. **When you need new work:** Read this CHECKLIST; take the next task assigned to you that is still Pending.
-4. **Do not rely on the owner** to assign work; check this file and your instruction file periodically.
+2. **When you complete a task:**
+   - Update the Status in this file (e.g. `☐ Pending` → `☑ Done` + date).
+   - Update the **detailed checklist** in `agents/live/checklists/` (e.g. Phase1.md or `<Agent>_Mx.x.md`) with subtask checkboxes.
+   - Append **build notes** to `agents/live/build-notes/<YOUR_NAME>.md` (what you did, decisions, issues, handoffs). See `agents/live/build-notes/README.md`.
+3. **When you need new work:** Read this CHECKLIST and `agents/live/STATUS.md`; take the next task assigned to you that is still Pending.
+4. **When you start a session:** First read this file, your instruction file, STATUS.md, and recent `agents/live/build-notes/` from agents you depend on. Then set up your environment for your next tasks and anticipate work. See `docs/AGENT_SYSTEM_AND_AUTONOMY.md`.
+5. **Do not rely on the owner** to assign work; check this file and your instruction file whenever you are active.

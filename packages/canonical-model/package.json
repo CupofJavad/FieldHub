@@ -1,0 +1,8 @@
+{
+  "name": "@tgnd/canonical-model",
+  "version": "1.0.0",
+  "description": "TGND canonical work order and lifecycle types",
+  "main": "index.js",
+  "author": "TGND",
+  "license": "UNLICENSED"
+}

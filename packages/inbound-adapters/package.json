@@ -1,0 +1,11 @@
+{
+  "name": "@tgnd/inbound-adapters",
+  "version": "1.0.0",
+  "description": "TGND inbound provider mappers: provider payload → canonical work order",
+  "main": "index.js",
+  "author": "TGND",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@tgnd/canonical-model": "file:../canonical-model"
+  }
+}

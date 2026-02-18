@@ -1,16 +1,24 @@
 /**
  * @file index.js
  * TGND outbound adapters: field platform interface and implementations.
- * M1.4: One field platform adapter (WorkMarket) – push job, platform_job_id, status sync.
+ * WorkMarket: https://employer-api.workmarket.com/reference/getting-started
+ * Field Nation: https://developer.fieldnation.com/client-api/webhooks/howitworks/
  */
 
 const { IFieldPlatformAdapter } = require('./interface.js');
 const { createWorkMarketAdapter, mockSetStatus, PLATFORM_TYPE } = require('./workmarket/adapter.js');
+const {
+  createFieldNationAdapter,
+  fieldNationStatusToTgnd,
+  tgndToFieldNationCreatePayload,
+} = require('./fieldnation/adapter.js');
 
 module.exports = {
   IFieldPlatformAdapter,
   createWorkMarketAdapter,
+  createFieldNationAdapter,
   mockSetStatus,
   PLATFORM_TYPE,
-  /** For future: createFieldNationAdapter, etc. */
+  fieldNationStatusToTgnd,
+  tgndToFieldNationCreatePayload,
 };

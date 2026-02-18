@@ -7,14 +7,13 @@
 
 ## Current focus
 
-1. ~~M0.2 (file versioning), M0.4 (error logging).~~ Done.
-2. **Phase 1:** Implement **M1.1** (REST API: POST/GET/PATCH /v1/work-orders, canonical model, idempotency) and **M1.3** (Postgres: work_orders, providers, service_type_config; lifecycle state machine).
+1. ~~M0.2, M0.4, M1.1, M1.3~~ Done.
+2. **Next:** M2.1 (service-type engine; completion validation) when Phase 2 starts; support M1.5 and Dana/Sam as needed.
 
 ## Next actions
 
-- **Start M1.1:** Build the work-orders API in `apps/api` (or as specified in project structure). Use canonical model from `SCT_System_Recreation_Project/SCT_Enhanced_System_Design_And_Build_Scope.md`. Idempotency by provider_key + external_id.
-- **Start M1.3:** Add DB migrations and schema for work_orders, providers, service_type_config; implement lifecycle (received → … → completed/closed/cancelled).
-- Use `packages/logger` for API and core logging. Mark M1.1 and M1.3 Done in CHECKLIST when complete.
+- Check CHECKLIST for new Corey tasks. Support M1.5 (end-to-end flow) if Sam/Dana need API tweaks.
+- When Phase 2 starts: M2.1 – service-type engine (OSR, OSS, installation, etc.), completion validation.
 
 ## Where to find new work
 
@@ -23,4 +22,4 @@
 
 ## Rules
 
-- When you complete a task, update the CHECKLIST and this file if your focus changes.
+- When you complete a task: update CHECKLIST, `agents/live/checklists/`, and `agents/live/build-notes/Corey.md`; update this file if your focus changes. When you start: read CHECKLIST, STATUS, this file, and recent build-notes (e.g. Dana, Sam) first.

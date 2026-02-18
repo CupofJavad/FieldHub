@@ -8,12 +8,13 @@
 ## Current focus
 
 1. ~~M0.4 (error logging).~~ Done.
-2. **Phase 1:** Implement **M1.2** (one provider mapping – mock or real OEM/CSV/API).
+2. ~~M1.2 (one provider mapping).~~ Done 2026-02-18.
+3. **Phase 2:** When Phase 2 starts: **M2.3** (EDI 850/856 or second provider; webhooks from providers).
 
 ## Next actions
 
-- **Start M1.2:** Implement at least one provider mapping that creates work orders (e.g. mock OEM or a real CSV/API). Map provider payload to the canonical WO model. Use `packages/logger` in your code. Integrate with Corey’s API (M1.1) when it is ready.
-- Mark M1.2 Done in CHECKLIST when one provider can create/update WOs. Next up for you: M2.3 (EDI or second provider; webhooks) in Phase 2.
+- **M2.3** when unblocked: Add EDI (850/856) or a second provider mapping; webhooks from providers if needed. Reuse `packages/inbound-adapters` pattern and POST /v1/inbound/:provider or /webhooks/:provider.
+- Check CHECKLIST and this file for new work.
 
 ## Where to find new work
 
@@ -22,4 +23,4 @@
 
 ## Rules
 
-- When you complete a task, update the CHECKLIST and this file if your focus changes.
+- When you complete a task: update CHECKLIST, `agents/live/checklists/`, and `agents/live/build-notes/Dana.md`; update this file if your focus changes. When you start: read CHECKLIST, STATUS, this file, and recent build-notes (e.g. Corey) first.

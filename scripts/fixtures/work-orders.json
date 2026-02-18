@@ -1,0 +1,24 @@
+[
+  {
+    "po_number": "PO-2026-BATCH-01",
+    "model": "TV-55X",
+    "serial": "SN123456",
+    "problem": "No power",
+    "ship_to": {
+      "name": "Jane Doe",
+      "address_line1": "123 Main St",
+      "city": "Sacramento",
+      "state": "CA",
+      "zip": "95814",
+      "phone": "555-1234"
+    }
+  },
+  {
+    "external_id": "PO-2026-002",
+    "provider_key": "oem_mock",
+    "payer_type": "oem_in_warranty",
+    "service_type": "osr",
+    "problem": "Screen flicker",
+    "ship_to": { "name": "John Smith", "address_line1": "456 Oak Ave", "city": "San Jose", "state": "CA", "zip": "95110", "phone": "555-5678" }
+  }
+]

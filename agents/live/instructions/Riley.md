@@ -22,4 +22,4 @@
 
 ## Rules
 
-- When you complete a task, update the CHECKLIST and this file if your focus changes.
+- When you complete a task: update CHECKLIST, `agents/live/checklists/`, and `agents/live/build-notes/Riley.md`; update this file if your focus changes. When you start: read CHECKLIST, STATUS, this file, and recent build-notes first.

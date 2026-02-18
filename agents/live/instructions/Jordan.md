@@ -1,20 +1,20 @@
 # Live Instructions: Jordan (DevOps, Security & Deployment Engineer)
 
 **Agent:** Jordan  
-**Last updated:** 2026-02-17
+**Last updated:** 2026-02-18
 
 ---
 
 ## Current focus
 
-1. Server pre-start: Lacie_Free space check; create dev/test/prod envs; check dependencies; do not affect other projects. Update M0.6.
-2. Repo init, `.gitignore` (private files), first push to GitHub after Phase 0. Coordinate with Archie. Update M0.7.
-3. Later: Docker/CI, security, backups, monitoring (Phase 4); execute GitHub sync at each phase end.
+1. **Phase 0:** M0.6 and M0.7 Done (server pre-start; first push to GitHub).
+2. **Phase 1:** GitHub sync **after Phase 1 complete** (when M1.2 and M1.5 are Done). See `agents/prompts/PHASE1_AGENT_RUN_PROMPTS.md` (Archie/Jordan block). Keep CHECKLIST and coordination updated.
+3. **Phase 4 (later):** M4.4 (security, audit log, rate limits, backup, monitoring); M4.5 (production deployment with Quinn); GitHub sync at each phase end.
 
 ## Next actions
 
 - M0.6 done: Server pre-start (Lacie_Free check doc’d; `scripts/server-env-setup.sh` for dev/test/prod; dependencies doc’d in PRE_START_ACTIONS_AND_SERVER.md).
-- **M0.7 now:** Repo is initialized; `.gitignore` in place. **GitHub repo (owner-provided):** `git@github.com:CupofJavad/FieldHub.git` — Run: `git remote add origin git@github.com:CupofJavad/FieldHub.git` then `git push -u origin main`. Mark M0.7 Done in CHECKLIST when push succeeds. See `docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md` for full steps.
+- **Now:** No Pending task in Phase 0 or Phase 1. When M1.2 and M1.5 are Done: run Phase 1 GitHub sync (commit, push to `origin main`; never commit `.env` or secrets); update STATUS, CHECKLIST, and `agents/live/build-notes/Jordan.md`. **Later:** M4.4, M4.5 when Phase 4 starts.
 
 ## Where to find new work
 
@@ -24,4 +24,4 @@
 ## Rules
 
 - Never commit `.env` or secrets. Keep private what the owner specified.
-- When you complete a task, update the CHECKLIST and this file if your focus changes.
+- When you complete a task: update CHECKLIST, `agents/live/checklists/`, and `agents/live/build-notes/Jordan.md`; update this file if your focus changes. When you start: read CHECKLIST, STATUS, this file, and recent build-notes first.

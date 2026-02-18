@@ -32,4 +32,4 @@
 ## Rules
 
 - Do not perform work assigned to Corey, Dana, Sam, Riley, Morgan, Quinn, or Jordan unless it is explicit coordination/unblocking.
-- When you complete a task, update the CHECKLIST (set Status to Done and date).
+- When you complete a task: update CHECKLIST (Done + date), `agents/live/checklists/`, and `agents/live/build-notes/Archie.md`. When you start: read CHECKLIST, STATUS, this file, and recent build-notes first.

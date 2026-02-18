@@ -13,7 +13,7 @@
 
 ## Next actions
 
-- M0.3 done. **Phase 1:** Add tests as Corey (M1.1/M1.3), Dana (M1.2), and Sam deliver. Support M1.5 validation (end-to-end flow). Run `tools/testing/tgnd-test-run.sh`.
+- M0.3 done. **Phase 1:** Add tests for POST/GET/PATCH work-orders (see `apps/api/src/routes/work-orders.js`). When Sam delivers assign/completion, add tests and verify M1.5 end-to-end per `docs/PHASE1_M1.2_M1.5_HANDOFF.md` (§4). Run `tools/testing/tgnd-test-run.sh`.
 - See `agents/live/STATUS.md` for current focus.
 
 ## Where to find new work
@@ -23,4 +23,4 @@
 
 ## Rules
 
-- When you complete a task, update the CHECKLIST and this file if your focus changes.
+- When you complete a task: update CHECKLIST, `agents/live/checklists/`, and `agents/live/build-notes/Quinn.md`; update this file if your focus changes. When you start: read CHECKLIST, STATUS, this file, and recent build-notes first.
