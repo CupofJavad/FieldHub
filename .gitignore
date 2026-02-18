@@ -1,0 +1,52 @@
+# TGND – keep private and generated artifacts out of version control
+
+# Environment and secrets (NEVER commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pnp
+.pnp.js
+
+# Build and output
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Logs (runtime; may keep logs/README or placeholder)
+logs/*.log
+logs/**/*.log
+!logs/README.md
+
+# Reports and exports (optional; versioned reports in logs/reports/ per versioning doc)
+# logs/reports/
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Test and coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Misc
+*.log
+.cache/
+tmp/
+temp/

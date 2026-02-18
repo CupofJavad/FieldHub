@@ -1,0 +1,12 @@
+{
+  "name": "@tgnd/outbound-adapters",
+  "version": "1.0.0",
+  "description": "TGND field platform adapters: push jobs, platform_job_id, status sync (WorkMarket, etc.)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node -e \"const A=require('./src/index.js'); const a=A.createWorkMarketAdapter({}); a.push({id:'wo-1', external_id:'ext-1', status:'scheduling', ship_to:{address_line1:'123 Main', city:'Sacramento', state:'CA', zip:'95834'}}).then(r=>console.log('push result', r));\""
+  },
+  "keywords": ["tgnd", "outbound", "workmarket", "field-platform"],
+  "author": "TGND",
+  "license": "UNLICENSED"
+}

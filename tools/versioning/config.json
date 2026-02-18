@@ -1,0 +1,13 @@
+{
+  "project_prefix": "TGND",
+  "naming_pattern": "{basename}.v{MAJOR}.{MINOR}.{PATCH}.{YYYYMMDD}.{HHmmss}.{ext}",
+  "naming_pattern_short": "{basename}.v{MAJOR}.{MINOR}.{YYYYMMDD}.{ext}",
+  "paths": {
+    "docs": "docs/versions",
+    "config": "config/versions",
+    "schema": "db/schema_versions",
+    "reports": "logs/reports"
+  },
+  "default_version": "1.0.0",
+  "timezone": "UTC"
+}

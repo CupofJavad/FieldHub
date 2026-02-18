@@ -1,0 +1,12 @@
+{
+  "name": "@tgnd/logger",
+  "version": "1.0.0",
+  "description": "TGND structured JSON logger for API, workers, and portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "node -e \"const L=require('.'); const l=L.createLogger('api'); l.info('test'); l.error('fail', 'WO_VALIDATION_FAILED', {external_id:'x'});\""
+  },
+  "keywords": ["tgnd", "logging", "structured", "json"],
+  "author": "TGND",
+  "license": "UNLICENSED"
+}

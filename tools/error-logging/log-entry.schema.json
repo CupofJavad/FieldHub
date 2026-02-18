@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TGNDLogEntry",
+  "type": "object",
+  "required": ["timestamp", "level", "message"],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "level": { "type": "string", "enum": ["ERROR", "WARN", "INFO", "DEBUG"] },
+    "message": { "type": "string" },
+    "code": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+    "service": { "type": "string", "enum": ["api", "workers", "portal"] },
+    "requestId": { "type": "string" },
+    "jobId": { "type": "string" },
+    "context": { "type": "object" },
+    "stack": { "type": "string" }
+  }
+}

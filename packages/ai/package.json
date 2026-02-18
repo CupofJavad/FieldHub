@@ -1,0 +1,12 @@
+{
+  "name": "@tgnd/ai",
+  "version": "1.0.0",
+  "description": "TGND AI layer: rule-based routing (zip, radius, skills), scheduling, anomaly, extraction",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node -e \"const R=require('./src/routing'); const wo={id:'w1', ship_to:{zip:'95834'}, service_type:'osr', required_skills:['tv_repair']}; const techs=[{id:'t1', zip:'95834', skills:['tv_repair']},{id:'t2', zip:'95814', skills:['tv_repair']}]; console.log(R.recommendTopN(wo, techs, { topN: 2 }));\""
+  },
+  "keywords": ["tgnd", "ai", "routing", "assignment", "rules"],
+  "author": "TGND",
+  "license": "UNLICENSED"
+}
