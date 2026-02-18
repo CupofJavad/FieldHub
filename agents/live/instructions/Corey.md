@@ -7,13 +7,13 @@
 
 ## Current focus
 
-1. ~~M0.2, M0.4, M1.1, M1.3, M2.1~~ Done.
-2. **Next:** Check CHECKLIST for new Corey tasks; support Phase 2 (Riley, Dana, Sam) if API/DB tweaks needed. Phase 4: M4.3 (billing/claims).
+1. ~~M0.2, M0.4, M1.1, M1.3, M2.1, M4.3~~ Done.
+2. **Next:** Check CHECKLIST for new Corey tasks; no Pending Corey items. Support other agents as needed.
 
 ## Next actions
 
 - Check CHECKLIST and STATUS for Pending Corey tasks.
-- Support Report Center (GET /v1/service-types, completion_payload) and other agents as needed.
+- M4.3 complete: prepare-claim, submit-claim, claims table, billing rules (DIAG vs repair, deductions).
 
 ## Where to find new work
 

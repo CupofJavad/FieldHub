@@ -44,6 +44,23 @@ function isExtWarrantyNewShape(obj) {
   );
 }
 
+function isCustomerPayShape(obj) {
+  if (!obj || typeof obj !== 'object') return false;
+  return (
+    obj.provider_key === 'customer_pay' ||
+    (typeof obj.payment_ref === 'string' && !obj.auth_number) ||
+    (typeof obj.order_id === 'string' && obj.amount_due != null)
+  );
+}
+
+function isOemVizioShape(obj) {
+  if (!obj || typeof obj !== 'object') return false;
+  return (
+    obj.provider_key === 'oem_vizio' ||
+    (typeof obj.order_number === 'string' && !obj.payment_ref)
+  );
+}
+
 function parseJsonFile(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(raw);
@@ -107,10 +124,14 @@ async function main() {
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
     let url;
-    if (isOemMockShape(item)) {
-      url = `${BASE_URL}/v1/inbound/oem_mock`;
+    if (isCustomerPayShape(item)) {
+      url = `${BASE_URL}/v1/inbound/customer_pay`;
     } else if (isExtWarrantyNewShape(item)) {
       url = `${BASE_URL}/webhooks/inbound/ext_warranty_new`;
+    } else if (isOemVizioShape(item)) {
+      url = `${BASE_URL}/v1/inbound/oem_vizio`;
+    } else if (isOemMockShape(item)) {
+      url = `${BASE_URL}/v1/inbound/oem_mock`;
     } else {
       url = `${BASE_URL}/v1/work-orders`;
     }

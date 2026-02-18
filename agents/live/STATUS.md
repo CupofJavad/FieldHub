@@ -1,6 +1,6 @@
 # TGND Live Status – Coordination for All Agents
 
-**Last updated:** 2026-02-18
+**Last updated:** 2026-02-18 (Archie: Phase 4 complete; final sync)
 
 ---
 
@@ -17,7 +17,8 @@
 **Phase 0:** Complete (including M0.7 first push).  
 **Phase 1:** Complete (M1.1–M1.5 Done). Phase 1 GitHub sync done.  
 **Phase 2:** Complete (M2.1–M2.5 Done). Phase 2 GitHub sync done.  
-**Phase 3:** Complete (M3.1–M3.5 Done). Phase 3 GitHub sync done.
+**Phase 3:** Complete (M3.1–M3.5 Done). Phase 3 GitHub sync done.  
+**Phase 4:** Complete (M4.1–M4.5 Done). Final GitHub sync done.
 
 ---
 
@@ -25,21 +26,15 @@
 
 | Agent | Next action |
 |-------|-------------|
-| **Jordan** / **Archie** | Phase 3 sync done. Next: GitHub sync after Phase 4 complete. Jordan: M4.4 (security, audit, backup, monitoring); M4.5 after. |
-| **Corey** | **Done** (M2.1). Next: M4.3 (billing/claims) in Phase 4; support as needed. |
-| **Dana** | **Done** (M2.3). Next: M4.1 (more providers) in Phase 4. |
-| **Sam** | **Done** (M2.4). Next: M4.2 (more adapters, unified pool) in Phase 4. |
-| **Riley** | **Done** (M2.2, M2.5). Next: Phase 4 per CHECKLIST. |
-| **Morgan** | **Phase 3 complete** (M3.1–M3.5). Next: Phase 4 support (e.g. M4.3 billing/claims) or ad-hoc per CHECKLIST. |
-| **Quinn** | Support Phase 3 testing; Phase 4 deployment checks with Jordan. |
-| **Archie** | Keep CHECKLIST and STATUS accurate. Phase 3 sync done; trigger GitHub sync when Phase 4 complete. |
+| **All** | **Project complete.** All phases (0–4) Done. No Pending tasks in CHECKLIST. Use side work (`docs/SIDE_WORK_AND_KEEP_BUSY_TASKS.md`, `agents/prompts/SIDE_WORK_PROMPTS.md`) or ad-hoc improvements as needed. |
+| **Archie** | Final GitHub sync completed. Keep CHECKLIST/STATUS as record; no further milestone sync unless owner adds new phases. |
 
 ---
 
-## Dependency order (Phase 4)
+## Dependency order (Phase 4 – complete)
 
-1. **Dana** M4.1, **Sam** M4.2, **Corey/Morgan** M4.3, **Jordan** M4.4, **Jordan/Quinn** M4.5.
-2. **Archie** coordinates; triggers GitHub sync when Phase 4 complete.
+1. M4.1–M4.5 all Done.
+2. Final GitHub sync (Archie) completed.
 
 ---
 

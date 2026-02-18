@@ -13,6 +13,8 @@ const {
   suggestPartsReconciliation,
   suggestOpenCores,
   prepareClaim,
+  buildClaimSubmissionPayload,
+  ingestProviderResponse,
   suggestTechReminders,
 } = require('@tgnd/ai');
 const { listWorkOrders, getWorkOrderById } = require('../db');
@@ -130,11 +132,40 @@ function postAgentsClaimsPrepareHandler(req, res) {
   try {
     const wo = req.body?.work_order;
     if (!wo) return res.status(400).json({ error: 'Body must include work_order', code: 'AI_AGENTS_CLAIMS_BAD_REQUEST' });
-    const result = prepareClaim(wo);
+    const options = req.body?.tat_threshold_days != null ? { tatThresholdDays: req.body.tat_threshold_days } : {};
+    const result = prepareClaim(wo, options);
     return res.json(result);
   } catch (err) {
     log.error('Claims prepare failed', 'AI_AGENTS_CLAIMS_ERROR', { error: err.message });
     return res.status(500).json({ error: 'Claim prepare failed', code: 'AI_AGENTS_CLAIMS_ERROR' });
+  }
+}
+
+/** POST /v1/ai/agents/claims/submission-payload (M4.3) – body: { work_order, provider_format? }. Returns payload for provider API/batch. */
+function postAgentsClaimsSubmissionHandler(req, res) {
+  try {
+    const wo = req.body?.work_order;
+    if (!wo) return res.status(400).json({ error: 'Body must include work_order', code: 'AI_AGENTS_CLAIMS_BAD_REQUEST' });
+    const options = { provider_format: req.body?.provider_format || 'generic' };
+    const payload = buildClaimSubmissionPayload(wo, options);
+    return res.json({ submission_payload: payload });
+  } catch (err) {
+    log.error('Claim submission payload failed', 'AI_AGENTS_CLAIMS_ERROR', { error: err.message });
+    return res.status(500).json({ error: 'Claim submission payload failed', code: 'AI_AGENTS_CLAIMS_ERROR' });
+  }
+}
+
+/** POST /v1/ai/agents/claims/ingest-response (M4.3) – body: { provider_response, work_order? }. Returns suggested_wo_updates; human approves before PATCH. */
+function postAgentsClaimsIngestResponseHandler(req, res) {
+  try {
+    const providerResponse = req.body?.provider_response;
+    if (!providerResponse) return res.status(400).json({ error: 'Body must include provider_response', code: 'AI_AGENTS_CLAIMS_BAD_REQUEST' });
+    const wo = req.body?.work_order ?? null;
+    const result = ingestProviderResponse(providerResponse, wo);
+    return res.json(result);
+  } catch (err) {
+    log.error('Claim ingest response failed', 'AI_AGENTS_CLAIMS_ERROR', { error: err.message });
+    return res.status(500).json({ error: 'Claim ingest response failed', code: 'AI_AGENTS_CLAIMS_ERROR' });
   }
 }
 
@@ -157,5 +188,7 @@ module.exports = {
   postDispatchParseHandler,
   postAgentsPartsSuggestHandler,
   postAgentsClaimsPrepareHandler,
+  postAgentsClaimsSubmissionHandler,
+  postAgentsClaimsIngestResponseHandler,
   postAgentsTechCommsSuggestHandler,
 };

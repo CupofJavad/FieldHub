@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-02-18 – M4.3 Billing/claims automation – Done
+
+- **Goal (per `agents/live/checklists/Phase4.md`, CHECKLIST):** DIAG vs repair rules, deductions, claim submission to providers.
+- **Implemented:** (1) **Billing rules** `apps/api/src/billing-rules.js`: `classifyClaimType(completion_payload)` → `repair` | `diag` | `denied` (result-driven); `computeDeductions(wo)` → `{ code, reason }[]` (no parts return, TAT over 21 days, result-based). (2) **DB** `db/migrations/00004_claims.sql`: table `claims` (work_order_id, claim_type, status, proposed_claim, deductions, submitted_at, provider_response). (3) **DB layer** `apps/api/src/db.js`: `getClaimByWorkOrderId`, `upsertClaim`, `updateClaimStatus`. (4) **API:** `POST /v1/work-orders/:id/prepare-claim` – returns proposed_claim (via Morgan’s prepareClaim), claim_type, billing_type, deductions, deduction_codes, ready_for_submit, denial_reasons. `POST /v1/work-orders/:id/submit-claim` – persists claim with status=submitted, returns claim record; rejects if already submitted.
+- **Coordination with Morgan:** Uses `prepareClaim(wo)` from `@tgnd/ai` (billing_type, deduction_codes); API adds claim_type (repair/diag/denied) and detailed deductions for display/submission.
+- **Test:** Unit test for `classifyClaimType` and `computeDeductions` (success→repair, npf→diag, denied→denied; deductions array). Route handlers load OK.
+- **Next:** Provider-specific submission (API or batch) can be added by Dana or Morgan; claim record is ready for provider_response ingestion (e.g. approve/deny) and `proposeClaimStatusUpdate` / `ingestProviderResponse` in packages/ai.
+
+---
+
 ## 2026-02-18 – M2.1 Service-type engine + completion validation – Done
 
 - **Goal (per `docs/PHASE2_HANDOFF.md` § M2.1):** Service type drives workflow and completion rules; validate required fields when WO → completed.

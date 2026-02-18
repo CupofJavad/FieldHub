@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-02-18 – M4.4 & M4.5 (Security, audit, backup, monitoring; deployment)
+
+**M4.4 implemented:**
+- **Auth:** Optional API key via `TGND_API_KEY` or `API_KEY`; `X-API-Key` or `Authorization: Bearer`; `/health` and `/ready` always public.
+- **Audit log:** Migration `00004_audit_log.sql`; `insertAuditLog` in db.js; `recordAudit()` in middleware/audit.js; work-orders routes log create/patch/assign.
+- **Rate limits:** In-memory per-IP in middleware/rateLimit.js; `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`; 429 and X-RateLimit-* headers.
+- **Backup:** `scripts/backup-db.sh` (pg_dump + optional config tarball); doc in docs/M4.4_SECURITY_AND_OPERATIONS.md.
+- **Monitoring:** `/health` (liveness), `/ready` (DB ping); doc for log shipping and error rate.
+
+**M4.5 implemented:**
+- **Deployment check:** `scripts/deployment-check.sh` runs test suite and optional health/ready curl; exit 1 if tests fail.
+- **Production deployment doc:** docs/M4.5_PRODUCTION_DEPLOYMENT.md (steps, Quinn test verification).
+- **Tests:** Full tgnd-test-run.sh and apps/api npm test passed. Quinn continues to own test authoring; deployment check runs existing suite.
+
+**Files added/updated:** db/migrations/00004_audit_log.sql, apps/api/src/middleware/auth.js, rateLimit.js, audit.js, apps/api/src/db.js (insertAuditLog), server.js (auth, rate limit, /ready), work-orders.js (recordAudit), scripts/backup-db.sh, deployment-check.sh, docs/M4.4_SECURITY_AND_OPERATIONS.md, docs/M4.5_PRODUCTION_DEPLOYMENT.md.
+
+---
+
 ## 2026-02-18 – Phase 2 complete GitHub sync
 
 - **Check again:** CHECKLIST showed Phase 2 fully complete (M2.1–M2.5 all Done). Updated STATUS to Phase 2 complete, Phase 3 active; refreshed next-action table for all agents. Updated CHECKLIST header (Phase 2 complete, Phase 3 focus).

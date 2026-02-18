@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-02-18 – M4.2 More field adapters; unified pool view
+
+- **Unified pool view:** Added `GET /v1/work-orders/pool`. Returns `{ available_platform_types, assignable, by_platform }`. Assignable = WOs in status scheduling/parts_shipped with no platform_job_id; by_platform = WOs in assigned/in_progress grouped by platform_type (workmarket, fieldnation, internal). Optional query: provider_key, service_type, date_from, date_to.
+- **List platforms:** Added `GET /v1/field-platforms` returning `{ platform_types: ['workmarket','fieldnation','internal'] }` from `@tgnd/outbound-adapters` getAvailablePlatformTypes().
+- **Third adapter (internal):** Added `packages/outbound-adapters/src/internal/adapter.js` – createInternalAdapter(). Push returns platform_job_id = `internal-{wo.id}`, platform_type = 'internal'. No external API; use for in-house or manual assign. Wired into assign flow: POST .../assign?platform_type=internal.
+- **DB:** listAssignableWorkOrders(filters) for WOs ready to assign; listWorkOrders now supports platform_type and status[] (array) filters.
+- **Files changed:** apps/api/src/db.js, apps/api/src/routes/work-orders.js (getPool, getFieldPlatforms, internal in assign), apps/api/src/server.js, packages/outbound-adapters/src/index.js and src/internal/adapter.js (new), apps/api/README.md.
+- **Testing:** npm test in apps/api (tests skip without DATABASE_URL). Manual: GET /v1/field-platforms, GET /v1/work-orders/pool.
+
+---
+
 ## 2026-02-18 – M2.4 Second field platform (Field Nation) + completion webhook
 
 - **Option A implemented:** Wired Field Nation adapter into assign flow and added Field Nation completion webhook.

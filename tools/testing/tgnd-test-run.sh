@@ -11,7 +11,7 @@ for dir in apps/* packages/*; do
   if [ -f "$dir/package.json" ]; then
     if grep -q '"test"' "$dir/package.json" 2>/dev/null; then
       echo "=== Testing $dir ==="
-      (cd "$dir" && npm run test -- $COVERAGE 2>/dev/null || pnpm test -- $COVERAGE 2>/dev/null || true)
+      (cd "$dir" && (npm run test -- $COVERAGE 2>/dev/null || pnpm test -- $COVERAGE 2>/dev/null)) || { echo "FAILED: $dir"; exit 1; }
     fi
   fi
 done

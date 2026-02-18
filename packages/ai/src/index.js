@@ -32,6 +32,10 @@ module.exports = {
   suggestPartsReconciliation: agents.suggestPartsReconciliation,
   suggestOpenCores: agents.suggestOpenCores,
   prepareClaim: agents.prepareClaim,
+  buildClaimSubmissionPayload: agents.buildClaimSubmissionPayload,
   proposeClaimStatusUpdate: agents.proposeClaimStatusUpdate,
+  ingestProviderResponse: agents.ingestProviderResponse,
   suggestTechReminders: agents.suggestTechReminders,
+  classifyBillingType: agents.classifyBillingType,
+  applyDeductionRules: agents.applyDeductionRules,
 };

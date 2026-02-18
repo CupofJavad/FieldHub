@@ -1,7 +1,7 @@
 # Live Instructions: Sam (Field Platform & Outbound Engineer)
 
 **Agent:** Sam  
-**Last updated:** 2026-02-18 (M2.4 done)
+**Last updated:** 2026-02-18 (M4.2 done)
 
 ---
 
@@ -10,10 +10,11 @@
 1. ~~M1.4 (one field platform adapter – push job, platform_job_id, status sync).~~ Done 2026-02-17.
 2. ~~M1.5 (assign + completion flow).~~ Done 2026-02-18.
 3. ~~M2.4 (second field adapter or internal assign UI).~~ Done 2026-02-18 – Option A: Field Nation in assign flow + completion webhook.
+4. ~~M4.2 (more field adapters; unified pool view).~~ Done 2026-02-18 – pool API, field-platforms list, internal adapter.
 
 ## Next actions
 
-1. **Next work** from `agents/live/CHECKLIST.md`: e.g. M4.2 (more field adapters; unified pool view) when Phase 4 starts.
+1. **Next work** from `agents/live/CHECKLIST.md` when assigned.
 2. When you run again: read CHECKLIST, STATUS, and this file first.
 
 ## Where to find new work

@@ -9,12 +9,12 @@
 
 1. **Phase 0:** M0.6 and M0.7 Done (server pre-start; first push to GitHub).
 2. **Phase 1–2:** Phase 1 and Phase 2 GitHub syncs Done (2026-02-18). Next: GitHub sync **after Phase 3 complete**; keep CHECKLIST and coordination updated.
-3. **Phase 4 (later):** M4.4 (security, audit log, rate limits, backup, monitoring); M4.5 (production deployment with Quinn); GitHub sync at each phase end.
+3. **Phase 4:** M4.4 and M4.5 Done (2026-02-18). Next: GitHub sync when Phase 4 complete (M4.1–M4.5); keep CHECKLIST/STATUS updated.
 
 ## Next actions
 
 - M0.6 done: Server pre-start (Lacie_Free check doc’d; `scripts/server-env-setup.sh` for dev/test/prod; dependencies doc’d in PRE_START_ACTIONS_AND_SERVER.md).
-- **Now:** Phase 2 sync done. No Pending task until Phase 4. When Phase 3 is complete: run Phase 3 GitHub sync (commit, push; never commit `.env` or secrets). **Later:** M4.4, M4.5 when Phase 4 starts.
+- **Now:** M4.4 and M4.5 Done. No Pending task. When Phase 4 is complete: run final GitHub sync (or hand off to Archie). See CHECKLIST for any new work.
 
 ## Where to find new work
 

@@ -4,39 +4,40 @@ Use this for **subtask-level** progress. Main status stays in `agents/live/CHECK
 
 ---
 
-## M4.1 – More providers (Dana)
+## M4.1 – More providers (Dana) ✅ Done 2026-02-18
 
-- [ ] Add more provider mappings or OEMs; customer-pay portal if in scope
-- [ ] Update build-notes/Dana.md; mark CHECKLIST M4.1 Done
-
----
-
-## M4.2 – More field adapters; unified pool view (Sam)
-
-- [ ] Additional field platform adapters or unified pool view for assignment
-- [ ] Update build-notes/Sam.md; mark CHECKLIST M4.2 Done
+- [x] Add more provider mappings or OEMs; customer-pay portal if in scope (customer_pay + oem_vizio)
+- [x] Update build-notes/Dana.md; mark CHECKLIST M4.1 Done
 
 ---
 
-## M4.3 – Billing/claims automation (Corey / Morgan)
+## M4.2 – More field adapters; unified pool view (Sam) ✅ Done 2026-02-18
 
-- [ ] DIAG vs repair rules; deductions; claim submission to providers
-- [ ] Update build-notes; mark CHECKLIST M4.3 Done
+- [x] Unified pool view: GET /v1/work-orders/pool (assignable + by_platform); GET /v1/field-platforms
+- [x] Third adapter: internal pool (platform_type=internal); assign flow supports workmarket, fieldnation, internal
+- [x] Update build-notes/Sam.md; mark CHECKLIST M4.2 Done
+
+---
+
+## M4.3 – Billing/claims automation (Corey / Morgan) ✅ Done
+
+- [x] DIAG vs repair rules; deductions; claim submission to providers
+- [x] Update build-notes; mark CHECKLIST M4.3 Done
 
 ---
 
 ## M4.4 – Security, audit log, rate limits, backup, monitoring (Jordan)
 
-- [ ] Security (auth, secrets); audit log for critical actions; rate limits
-- [ ] Backup strategy (DB, config); basic monitoring (health, error rate/logs)
-- [ ] Document in build-notes; mark CHECKLIST M4.4 Done
+- [x] Security (auth, secrets); audit log for critical actions; rate limits
+- [x] Backup strategy (DB, config); basic monitoring (health, error rate/logs)
+- [x] Document in build-notes; mark CHECKLIST M4.4 Done **2026-02-18**
 
 ---
 
 ## M4.5 – Production deployment (Jordan / Quinn)
 
-- [ ] All tests and deployment checks passed; production deployment
-- [ ] Update build-notes; mark CHECKLIST M4.5 Done; final GitHub sync
+- [x] All tests and deployment checks passed; production deployment
+- [x] Update build-notes; mark CHECKLIST M4.5 Done; final GitHub sync **2026-02-18**
 
 ---
 

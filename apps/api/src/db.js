@@ -115,7 +115,7 @@ async function getWorkOrderByPlatformJobId(platform_job_id) {
 
 /**
  * List work orders with optional filters (for Report Center and export).
- * @param {{ status?: string, provider_key?: string, service_type?: string, date_from?: string, date_to?: string }} filters
+ * @param {{ status?: string, provider_key?: string, service_type?: string, platform_type?: string, date_from?: string, date_to?: string }} filters
  * @returns {Promise<object[]>}
  */
 async function listWorkOrders(filters = {}) {
@@ -123,9 +123,45 @@ async function listWorkOrders(filters = {}) {
   const values = [];
   let i = 1;
   if (filters.status) {
-    conditions.push(`status = $${i++}`);
-    values.push(filters.status);
+    if (Array.isArray(filters.status)) {
+      conditions.push(`status = ANY($${i++}::text[])`);
+      values.push(filters.status);
+    } else {
+      conditions.push(`status = $${i++}`);
+      values.push(filters.status);
+    }
   }
+  if (filters.provider_key) {
+    conditions.push(`provider_key = $${i++}`);
+    values.push(filters.provider_key);
+  }
+  if (filters.service_type) {
+    conditions.push(`service_type = $${i++}`);
+    values.push(filters.service_type);
+  }
+  if (filters.platform_type) {
+    conditions.push(`platform_type = $${i++}`);
+    values.push(filters.platform_type);
+  }
+  if (filters.date_from) {
+    conditions.push(`created_at >= $${i++}::timestamptz`);
+    values.push(filters.date_from);
+  }
+  if (filters.date_to) {
+    conditions.push(`created_at <= $${i++}::timestamptz`);
+    values.push(filters.date_to);
+  }
+  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+  const q = `SELECT * FROM work_orders ${where} ORDER BY created_at DESC`;
+  const res = await pool.query(q, values);
+  return res.rows.map(rowToWorkOrder);
+}
+
+/** WOs ready to assign: status in (scheduling, parts_shipped) and no platform_job_id. For unified pool view (M4.2). */
+async function listAssignableWorkOrders(filters = {}) {
+  const conditions = ["status IN ('scheduling', 'parts_shipped')", 'platform_job_id IS NULL'];
+  const values = [];
+  let i = 1;
   if (filters.provider_key) {
     conditions.push(`provider_key = $${i++}`);
     values.push(filters.provider_key);
@@ -142,7 +178,7 @@ async function listWorkOrders(filters = {}) {
     conditions.push(`created_at <= $${i++}::timestamptz`);
     values.push(filters.date_to);
   }
-  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+  const where = `WHERE ${conditions.join(' AND ')}`;
   const q = `SELECT * FROM work_orders ${where} ORDER BY created_at DESC`;
   const res = await pool.query(q, values);
   return res.rows.map(rowToWorkOrder);
@@ -214,15 +250,94 @@ async function runMigration() {
   }
 }
 
+function rowToClaim(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    work_order_id: row.work_order_id,
+    claim_type: row.claim_type,
+    status: row.status,
+    proposed_claim: row.proposed_claim || null,
+    deductions: row.deductions || [],
+    submitted_at: row.submitted_at,
+    provider_response: row.provider_response || null,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+async function getClaimByWorkOrderId(work_order_id) {
+  const res = await pool.query('SELECT * FROM claims WHERE work_order_id = $1', [work_order_id]);
+  return rowToClaim(res.rows[0]);
+}
+
+async function upsertClaim(data) {
+  const res = await pool.query(
+    `INSERT INTO claims (work_order_id, claim_type, status, proposed_claim, deductions, submitted_at, provider_response)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
+     ON CONFLICT (work_order_id) DO UPDATE SET
+       claim_type = EXCLUDED.claim_type,
+       status = EXCLUDED.status,
+       proposed_claim = EXCLUDED.proposed_claim,
+       deductions = EXCLUDED.deductions,
+       submitted_at = COALESCE(EXCLUDED.submitted_at, claims.submitted_at),
+       provider_response = COALESCE(EXCLUDED.provider_response, claims.provider_response),
+       updated_at = now()
+     RETURNING *`,
+    [
+      data.work_order_id,
+      data.claim_type,
+      data.status,
+      JSON.stringify(data.proposed_claim || null),
+      JSON.stringify(data.deductions || []),
+      data.submitted_at || null,
+      data.provider_response ? JSON.stringify(data.provider_response) : null,
+    ]
+  );
+  return rowToClaim(res.rows[0]);
+}
+
+async function updateClaimStatus(work_order_id, status, provider_response = null) {
+  const res = await pool.query(
+    `UPDATE claims SET status = $1, updated_at = now(),
+     provider_response = COALESCE($2::jsonb, provider_response),
+     submitted_at = CASE WHEN $1 = 'submitted' AND submitted_at IS NULL THEN now() ELSE submitted_at END
+     WHERE work_order_id = $3 RETURNING *`,
+    [status, provider_response ? JSON.stringify(provider_response) : null, work_order_id]
+  );
+  return rowToClaim(res.rows[0]);
+}
+
+/** M4.4 – Write audit entry for critical actions. */
+async function insertAuditLog(entry) {
+  await pool.query(
+    `INSERT INTO audit_log (action, resource, resource_id, actor, details, request_id)
+     VALUES ($1, $2, $3, $4, $5, $6)`,
+    [
+      entry.action || 'unknown',
+      entry.resource || 'unknown',
+      entry.resource_id ?? null,
+      entry.actor ?? null,
+      JSON.stringify(entry.details || {}),
+      entry.request_id ?? null,
+    ]
+  );
+}
+
 module.exports = {
   pool,
+  insertAuditLog,
   createWorkOrder,
   getWorkOrderById,
   getWorkOrderByProviderAndExternal,
   getWorkOrderByPlatformJobId,
   updateWorkOrder,
   listWorkOrders,
+  listAssignableWorkOrders,
   getServiceTypeConfig,
   getAllServiceTypeConfigs,
+  getClaimByWorkOrderId,
+  upsertClaim,
+  updateClaimStatus,
   runMigration,
 };

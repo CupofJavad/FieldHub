@@ -1,7 +1,7 @@
 # TGND Live Checklist – Single Source of Truth for Agent Tasks
 
-**Last updated:** 2026-02-18 (Archie: Phase 3 GitHub sync)  
-**Current focus:** Phase 3 complete (M3.1–M3.5). Phase 3 GitHub sync done. Phase 4 – M4.1–M4.5. When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
+**Last updated:** 2026-02-18 (Archie: Phase 4 complete, final GitHub sync)  
+**Current focus:** **Project complete.** All phases (0–4) Done. Final GitHub sync done. For optional work see `docs/SIDE_WORK_AND_KEEP_BUSY_TASKS.md`. When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
 **Rules:** Each agent updates their own rows when they complete work. Check this file periodically for new tasks assigned to you. Do not remove or alter other agents’ task rows without coordination.
 
 ---
@@ -60,11 +60,11 @@
 
 | ID | Task | Owner | Status |
 |----|------|--------|--------|
-| M4.1 | More providers (OEMs, warranty, customer-pay portal) | Dana | ☐ Pending |
-| M4.2 | More field adapters; unified pool view | Sam | ☐ Pending |
-| M4.3 | Billing/claims automation (DIAG vs repair, deductions); claim submission | Corey / Morgan | ☐ Pending |
-| M4.4 | Security, audit log, rate limits, backup, monitoring | Jordan | ☐ Pending |
-| M4.5 | Production deployment; all tests and deployment checks passed | Jordan / Quinn | ☐ Pending |
+| M4.1 | More providers (OEMs, warranty, customer-pay portal) | Dana | ☑ Done 2026-02-18 |
+| M4.2 | More field adapters; unified pool view | Sam | ☑ Done 2026-02-18 |
+| M4.3 | Billing/claims automation (DIAG vs repair, deductions); claim submission | Corey / Morgan | ☑ Done 2026-02-18 |
+| M4.4 | Security, audit log, rate limits, backup, monitoring | Jordan | ☑ Done 2026-02-18 |
+| M4.5 | Production deployment; all tests and deployment checks passed | Jordan / Quinn | ☑ Done 2026-02-18 |
 
 ---
 

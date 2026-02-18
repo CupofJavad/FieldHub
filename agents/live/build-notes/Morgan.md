@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-02-18 – M4.3 (Billing/claims automation, with Corey)
+
+- **DIAG vs repair** (`packages/ai/src/agents/billing-rules.js`): `classifyBillingType(wo)` → `'diag'` or `'repair'` (success + parts_used = repair; NPF/unreachable/no parts = diag). Used by claim-processing.
+- **Deductions** (`billing-rules.js`): `applyDeductionRules(wo, { tatThresholdDays })` → list of codes: unreachable, npf, tat_breach, parts_not_returned, panel_defect, duplicate, etc. Feeds proposed_claim and submission payload.
+- **Claim-processing extended** (`claim-processing.js`): `prepareClaim(wo, options)` now returns `billing_type`, `deductions`; optional `tatThresholdDays`. `buildClaimSubmissionPayload(wo, { provider_format: 'generic'|'oem'|'ext_warranty' })` → payload for provider API or batch. `ingestProviderResponse(providerResponse, wo)` → `suggested_wo_updates` (metadata: claim_status, claim_denial_reason, claim_deduction_code, claim_amount_paid); human approves before PATCH WO.
+- **API:** POST `/v1/ai/agents/claims/prepare` (body may include `tat_threshold_days`); POST `/v1/ai/agents/claims/submission-payload` (body: work_order, provider_format?); POST `/v1/ai/agents/claims/ingest-response` (body: provider_response, work_order?). Claim submission and response ingestion are agent-output only; human or Corey’s layer submits to provider and applies WO updates.
+- **Handoff (Corey):** WO metadata can store claim_status, claim_denial_reason, claim_deduction_code (e.g. merge suggested_wo_updates.metadata into WO on PATCH). No new DB table required for M4.3; optional claim_log table later.
+
+---
+
 ## 2026-02-18 – M3.5 (AI-led agents integration)
 
 - **Parts reconciliation** (`packages/ai/src/agents/parts-reconciliation.js`): `suggestPartsReconciliation(workOrders, trackingEvents)` – match tracking to WO parts → suggestions (parts_shipped, return_received). `suggestOpenCores(workOrders, { openAfterDays })` – flag open cores for 14–21 day reminders.

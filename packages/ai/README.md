@@ -51,4 +51,11 @@ Optional for radius: set `ship_to.latitude`, `ship_to.longitude` and tech `latit
 - **Parts reconciliation:** `suggestPartsReconciliation(workOrders, trackingEvents)` → suggestions (parts_shipped / return_received); `suggestOpenCores(workOrders, options)` → open_cores list. Human approves before updating WO/parts.
 - **Claim-processing:** `prepareClaim(wo)` → proposed_claim, ready_for_submit, denial_reasons; `proposeClaimStatusUpdate(providerResponse, wo)` after provider response. Human submits/approves.
 - **Tech comms:** `suggestTechReminders(workOrders, options)` → pending_messages (appointment_reminder, parts_delivered_schedule, cores_return_reminder) with draft_content. Human approves before send.
-- **API:** POST `/v1/ai/agents/parts/suggest`, `/v1/ai/agents/claims/prepare`, `/v1/ai/agents/tech-comms/suggest`. Invoke and approval flows: `packages/ai/src/agents/README.md`.
+- **API:** POST `/v1/ai/agents/parts/suggest`, `/v1/ai/agents/claims/prepare`, `/v1/ai/agents/claims/submission-payload`, `/v1/ai/agents/claims/ingest-response`, `/v1/ai/agents/tech-comms/suggest`. Invoke and approval flows: `packages/ai/src/agents/README.md`.
+
+### M4.3 – Billing/claims automation (DIAG vs repair, deductions, submission, ingest)
+
+- **DIAG vs repair:** `classifyBillingType(wo)` → `'diag'` \| `'repair'` (success + parts_used = repair; NPF/unreachable/no parts = diag). `applyDeductionRules(wo, options)` → deduction codes (unreachable, npf, tat_breach, parts_not_returned, etc.).
+- **prepareClaim** now returns `billing_type`, `deductions`; optional `tatThresholdDays` for TAT breach.
+- **Claim submission:** `buildClaimSubmissionPayload(wo, { provider_format: 'generic'|'oem'|'ext_warranty' })` → payload for provider API or batch. Human or system submits.
+- **Ingest provider response:** `ingestProviderResponse(providerResponse, wo)` → `suggested_wo_updates` (metadata: claim_status, claim_denial_reason, claim_deduction_code); human approves before PATCH.

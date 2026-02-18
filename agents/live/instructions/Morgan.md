@@ -16,7 +16,7 @@
 ## Next actions
 
 1. **Read** `docs/PHASE3_HANDOFF.md` and `agents/live/checklists/Phase3.md`.
-2. **Phase 3 complete.** No further M3.x tasks. Check CHECKLIST for Phase 4 (e.g. M4.3 billing/claims with Corey) or support as needed.
+2. **M4.3 Done** (billing/claims: DIAG vs repair, deductions, claim submission payload, ingest provider response). Phase 4 remaining: M4.1, M4.2, M4.4, M4.5 per CHECKLIST.
 3. **Update** build-notes and checklists when completing any task.
 
 ## Where to find new work

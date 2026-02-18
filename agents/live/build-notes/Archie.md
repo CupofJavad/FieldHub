@@ -4,6 +4,15 @@
 
 ---
 
+## 2026-02-18 – Phase 4 coordination (no sync)
+
+- **Assignment:** Read CHECKLIST and STATUS; if Phase 4 (M4.1–M4.5) not all Done, update STATUS so each agent’s next action is clear; when Phase 4 complete, trigger final GitHub sync. Log in build-notes; update STATUS and CHECKLIST as needed.
+- **Done:** Phase 4 is **not** complete (M4.1–M4.5 all Pending). Did **not** run final sync. Updated **CHECKLIST:** “Current focus” → Phase 4 in progress, M4.1–M4.5 with owners; “Last updated” (Archie: Phase 4 coordination). Updated **STATUS:** “Last updated” (Archie: Phase 4 next actions); added “Phase 4: In progress. M4.1–M4.5 Pending. Final GitHub sync when all Done”; “Immediate next actions” table made explicit: Dana → Do M4.1, Sam → Do M4.2, Corey → Do M4.3, Morgan → Do M4.3 with Corey, Jordan → Do M4.4 then M4.5 with Quinn, Quinn → Do M4.5 with Jordan, Archie → trigger final GitHub sync when M4.1–M4.5 all Done; Riley → no Phase 4 task, support/ad-hoc.
+- **Sync:** None. Final sync when Phase 4 complete.
+- **Next:** When M4.1–M4.5 all marked Done in CHECKLIST, run final GitHub sync (commit, push; no .env). See `docs/GITHUB_SYNC_INSTRUCTIONS.md`.
+
+---
+
 ## 2026-02-18 – Phase 3 GitHub sync
 
 - **Assignment:** Trigger Phase 3 GitHub sync (Phase 3 complete per CHECKLIST).
