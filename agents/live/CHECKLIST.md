@@ -39,7 +39,7 @@
 | M2.1 | Service-type engine (OSR, OSS, installation, etc.); completion validation | Corey | ☑ Done 2026-02-18 |
 | M2.2 | Report Center: open WOs, TAT, tech assign, parts return (WWTS-style) | Riley | ☐ Pending |
 | M2.3 | Add EDI (850/856) or second provider; webhooks from providers if needed | Dana | ☑ Done 2026-02-18 |
-| M2.4 | Second field platform adapter or internal assign UI | Sam | ☐ Pending |
+| M2.4 | Second field platform adapter or internal assign UI | Sam | ☑ Done 2026-02-18 |
 | M2.5 | Export: CSV/Excel for billing and claims | Riley | ☐ Pending |
 
 ---

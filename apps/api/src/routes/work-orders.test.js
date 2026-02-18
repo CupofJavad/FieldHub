@@ -210,6 +210,36 @@ describe('POST /v1/work-orders/:id/assign', () => {
     const res = await request(app).post(`/v1/work-orders/${post.body.id}/assign`).expect(409);
     assert.strictEqual(res.body.code, 'WO_ALREADY_ASSIGNED');
   });
+
+  it('returns 200 with platform_type=fieldnation when WO is in scheduling', async () => {
+    const extId = `assign-fn-${Date.now()}`;
+    const post = await request(app)
+      .post('/v1/work-orders')
+      .send({ ...minimalWo, external_id: extId })
+      .expect(201);
+    await request(app)
+      .patch(`/v1/work-orders/${post.body.id}`)
+      .send({ status: 'scheduling' })
+      .expect(200);
+    const assign = await request(app)
+      .post(`/v1/work-orders/${post.body.id}/assign?platform_type=fieldnation`)
+      .expect(200);
+    assert.strictEqual(assign.body.status, 'assigned');
+    assert.ok(assign.body.platform_job_id);
+    assert.strictEqual(assign.body.platform_type, 'fieldnation');
+  });
+
+  it('returns 400 for invalid platform_type', async () => {
+    const post = await request(app)
+      .post('/v1/work-orders')
+      .send({ ...minimalWo, external_id: `assign-bad-${Date.now()}` })
+      .expect(201);
+    await request(app).patch(`/v1/work-orders/${post.body.id}`).send({ status: 'scheduling' }).expect(200);
+    const res = await request(app)
+      .post(`/v1/work-orders/${post.body.id}/assign?platform_type=invalid`)
+      .expect(400);
+    assert.strictEqual(res.body.code, 'WO_ASSIGN_BAD_PLATFORM');
+  });
 });
 
 describe('POST /webhooks/field/workmarket', () => {
@@ -244,6 +274,24 @@ describe('POST /webhooks/field/workmarket', () => {
       .expect(200);
     const get = await request(app).get(`/v1/work-orders/${post.body.id}`).expect(200);
     assert.strictEqual(get.body.status, 'completed');
+  });
+});
+
+describe('POST /webhooks/field/fieldnation', () => {
+  it('returns 400 when platform_job_id and work_order_id are missing', async () => {
+    const res = await request(app)
+      .post('/webhooks/field/fieldnation')
+      .send({ status: 'Work Done' })
+      .expect(400);
+    assert.strictEqual(res.body.code, 'WEBHOOK_BAD_REQUEST');
+  });
+
+  it('returns 200 received:true for unknown platform_job_id', async () => {
+    const res = await request(app)
+      .post('/webhooks/field/fieldnation')
+      .send({ platform_job_id: 'fn-unknown-123', status: 'Work Done' })
+      .expect(200);
+    assert.strictEqual(res.body.received, true);
   });
 });
 

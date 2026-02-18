@@ -44,11 +44,11 @@ Use this for **subtask-level** progress. Main status stays in `agents/live/CHECK
 
 ---
 
-## M2.4 – Second adapter or internal assign UI (Sam)
+## M2.4 – Second adapter or internal assign UI (Sam) ✅ Done 2026-02-18
 
-- [ ] Read `docs/PHASE2_HANDOFF.md` (§ M2.4)
-- [ ] Implement at least one: (A) Wire Field Nation into assign flow + completion webhook, (B) Internal assign UI (list WOs, trigger assign, optional platform choice)
-- [ ] Document in build-notes; update this checklist; mark CHECKLIST M2.4 Done
+- [x] Read `docs/PHASE2_HANDOFF.md` (§ M2.4)
+- [x] Implemented **Option A:** Wire Field Nation into assign flow (platform_type=workmarket|fieldnation on POST .../assign) + Field Nation completion webhook (POST /webhooks/field/fieldnation); spec in docs/WEBHOOK_FIELD_NATION_SPEC.md
+- [x] Document in build-notes; update this checklist; mark CHECKLIST M2.4 Done
 
 ---
 

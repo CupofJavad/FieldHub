@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TGND Report Center</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; background: #f5f5f5; }
+    .header { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: #1a1a2e; color: #eee; margin: -1rem -1rem 1rem -1rem; }
+    .header a { color: #aaa; text-decoration: none; }
+    .header a:hover { color: #fff; }
+    .tabs { margin-bottom: 1rem; }
+    .tabs button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; cursor: pointer; border: 1px solid #ccc; background: #f5f5f5; border-radius: 4px; }
+    .tabs button.active { background: #0f3460; color: #fff; border-color: #0f3460; }
+    .filters { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .filters input { width: 120px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border: 1px solid #ddd; padding: 0.4rem 0.6rem; text-align: left; }
+    th { background: #f0f0f0; }
+    .error { color: #c00; }
+    a { color: #0f3460; }
+    section { margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <strong>TGND Report Center</strong>
+    <a href="/">Report Center</a>
+  </div>
+
+  <div class="tabs">
+    <button data-tab="open" class="active">Open WOs</button>
+    <button data-tab="tat">TAT</button>
+    <button data-tab="tech">Tech assign</button>
+    <button data-tab="parts">Parts return</button>
+  </div>
+
+  <div class="filters">
+    <label>Status <input type="text" id="filter-status" placeholder="e.g. received" /></label>
+    <label>Provider <input type="text" id="filter-provider" placeholder="provider_key" /></label>
+    <label>Service type <input type="text" id="filter-service" placeholder="e.g. osr" /></label>
+    <button id="btn-apply">Apply</button>
+  </div>
+
+  <p id="error" class="error" style="display:none;"></p>
+
+  <section id="section-open">
+    <h2>Open work orders</h2>
+    <p id="open-count">—</p>
+    <table><thead><tr><th>ID</th><th>External ID</th><th>Provider</th><th>Status</th><th>Service type</th><th>Appointment</th></tr></thead><tbody id="open-tbody"></tbody></table>
+  </section>
+  <section id="section-tat" style="display:none;">
+    <h2>TAT metrics</h2>
+    <p>Requested → assigned (count): <span id="tat-assigned">—</span></p>
+    <p>Assigned → completed (count): <span id="tat-completed">—</span></p>
+  </section>
+  <section id="section-tech" style="display:none;">
+    <h2>Tech assign</h2>
+    <table><thead><tr><th>ID</th><th>External ID</th><th>Status</th><th>Action</th></tr></thead><tbody id="tech-tbody"></tbody></table>
+  </section>
+  <section id="section-parts" style="display:none;">
+    <h2>Parts return</h2>
+    <table><thead><tr><th>ID</th><th>External ID</th><th>Status</th><th>Parts / return</th></tr></thead><tbody id="parts-tbody"></tbody></table>
+  </section>
+
+  <section>
+    <h2>Export</h2>
+    <a id="export-link" href="#">Download CSV</a>
+  </section>
+
+  <script>
+    const API = window.location.port === '5174' ? '/api' : (window.TGND_API_URL || 'http://localhost:3000');
+    let workOrders = [];
+
+    function qs(id) { return document.getElementById(id); }
+    function setError(msg) {
+      const el = qs('error');
+      el.textContent = msg || '';
+      el.style.display = msg ? 'block' : 'none';
+    }
+
+    async function fetchWOs() {
+      const status = qs('filter-status').value.trim();
+      const provider = qs('filter-provider').value.trim();
+      const service = qs('filter-service').value.trim();
+      const params = new URLSearchParams();
+      if (status) params.set('status', status);
+      if (provider) params.set('provider_key', provider);
+      if (service) params.set('service_type', service);
+      const url = params.toString() ? `${API}/v1/work-orders?${params}` : `${API}/v1/work-orders`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      return data.work_orders || [];
+    }
+
+    async function load() {
+      setError('');
+      try {
+        workOrders = await fetchWOs();
+        render();
+      } catch (e) {
+        setError(e.message || 'Failed to load');
+        workOrders = [];
+        render();
+      }
+    }
+
+    async function assign(id) {
+      setError('');
+      try {
+        const res = await fetch(`${API}/v1/work-orders/${id}/assign`, { method: 'POST' });
+        if (!res.ok) throw new Error(await res.text());
+        await load();
+      } catch (e) {
+        setError(e.message || 'Assign failed');
+      }
+    }
+
+    function render() {
+      const open = workOrders.filter(w => !['completed','closed','cancelled'].includes(w.status));
+      const assignable = workOrders.filter(w => ['scheduling','parts_shipped'].includes(w.status) && !w.platform_job_id);
+      const completed = workOrders.filter(w => w.status === 'completed');
+      const withParts = workOrders.filter(w => (w.parts && w.parts.length) || (w.completion_payload && (w.completion_payload.return_tracking || w.completion_payload.parts_used)));
+
+      qs('open-count').textContent = open.length + ' open';
+      qs('open-tbody').innerHTML = open.map(w => `
+        <tr>
+          <td><a href="${API}/v1/work-orders/${w.id}">${String(w.id).slice(0,8)}…</a></td>
+          <td>${w.external_id}</td>
+          <td>${w.provider_key}</td>
+          <td>${w.status}</td>
+          <td>${w.service_type}</td>
+          <td>${w.appointment_date ? new Date(w.appointment_date).toLocaleDateString() : '—'}</td>
+        </tr>
+      `).join('');
+
+      qs('tat-assigned').textContent = workOrders.filter(w => w.status === 'assigned' || w.platform_job_id).length;
+      qs('tat-completed').textContent = completed.length;
+
+      qs('tech-tbody').innerHTML = assignable.map(w => `
+        <tr>
+          <td>${String(w.id).slice(0,8)}…</td>
+          <td>${w.external_id}</td>
+          <td>${w.status}</td>
+          <td><button onclick="window.assignWo('${w.id}')">Assign</button></td>
+        </tr>
+      `).join('') || '<tr><td colspan="4">No WOs ready to assign.</td></tr>';
+
+      qs('parts-tbody').innerHTML = withParts.map(w => `
+        <tr>
+          <td>${String(w.id).slice(0,8)}…</td>
+          <td>${w.external_id}</td>
+          <td>${w.status}</td>
+          <td>${w.parts?.length ? w.parts.length + ' part(s)' : ''} ${w.completion_payload?.return_tracking ? 'Return: ' + w.completion_payload.return_tracking : ''}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="4">No WOs with parts/return data.</td></tr>';
+
+      const exportParams = new URLSearchParams({ format: 'csv' });
+      if (qs('filter-provider').value.trim()) exportParams.set('provider_key', qs('filter-provider').value.trim());
+      if (qs('filter-status').value.trim()) exportParams.set('status', qs('filter-status').value.trim());
+      qs('export-link').href = `${API}/v1/work-orders/export?${exportParams}`;
+      qs('export-link').download = 'work-orders-export.csv';
+    }
+
+    window.assignWo = assign;
+
+    document.querySelectorAll('.tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const t = btn.dataset.tab;
+        ['open','tat','tech','parts'].forEach(s => {
+          qs('section-' + s).style.display = s === t ? 'block' : 'none';
+        });
+      });
+    });
+    qs('btn-apply').addEventListener('click', load);
+    load();
+  </script>
+</body>
+</html>

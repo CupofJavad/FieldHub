@@ -2,12 +2,12 @@
   import { onMount } from 'svelte';
   import { fetchWorkOrders, assignWorkOrder, exportUrl } from '$lib/api.js';
 
-  let tab = 'open';
-  let workOrders = [];
-  let loading = true;
-  let error = '';
-  let assignLoading = null;
-  let filters = { status: '', provider_key: '', service_type: '' };
+  let tab = $state('open');
+  let workOrders = $state([]);
+  let loading = $state(true);
+  let error = $state('');
+  let assignLoading = $state(null);
+  let filters = $state({ status: '', provider_key: '', service_type: '' });
 
   async function load() {
     loading = true;
@@ -42,10 +42,10 @@
 
   onMount(load);
 
-  $: openWOs = workOrders.filter((wo) => !['completed', 'closed', 'cancelled'].includes(wo.status));
-  $: assignableWOs = workOrders.filter((wo) => ['scheduling', 'parts_shipped'].includes(wo.status) && !wo.platform_job_id);
-  $: completedWOs = workOrders.filter((wo) => wo.status === 'completed');
-  $: withParts = workOrders.filter((wo) => (wo.parts && wo.parts.length) || (wo.completion_payload && (wo.completion_payload.return_tracking || wo.completion_payload.parts_used)));
+  const openWOs = $derived(workOrders.filter((wo) => !['completed', 'closed', 'cancelled'].includes(wo.status)));
+  const assignableWOs = $derived(workOrders.filter((wo) => ['scheduling', 'parts_shipped'].includes(wo.status) && !wo.platform_job_id));
+  const completedWOs = $derived(workOrders.filter((wo) => wo.status === 'completed'));
+  const withParts = $derived(workOrders.filter((wo) => (wo.parts?.length) || (wo.completion_payload && (wo.completion_payload.return_tracking || wo.completion_payload.parts_used))));
 
   function tatRequestedToAssigned() {
     return workOrders.filter((w) => w.status === 'assigned' || w.platform_job_id).length;

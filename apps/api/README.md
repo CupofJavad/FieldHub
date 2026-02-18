@@ -26,7 +26,8 @@ REST API for work orders: POST/GET/PATCH `/v1/work-orders`. Idempotency by `prov
 | GET | /v1/work-orders/:id | Get by internal id |
 | GET | /v1/work-orders?provider=&external_id= | Get by provider + external_id |
 | PATCH | /v1/work-orders/:id | Update status/fields; lifecycle transitions enforced |
-| POST | /v1/work-orders/:id/assign | Assign WO to field platform (WorkMarket); sets status=assigned, platform_job_id, platform_type |
+| POST | /v1/work-orders/:id/assign | Assign WO to field platform. Optional `?platform_type=workmarket\|fieldnation` or body `{ platform_type }`; default workmarket. Sets status=assigned, platform_job_id, platform_type. |
 | POST | /webhooks/field/workmarket | Field platform webhook: body { platform_job_id, status [, completion_payload ] }; updates WO to completed when status=completed |
+| POST | /webhooks/field/fieldnation | Field Nation webhook: body { platform_job_id or work_order_id, status (e.g. Work Done) [, completion_payload ] }. See `docs/WEBHOOK_FIELD_NATION_SPEC.md`. |
 
 Uses `@tgnd/logger` and `@tgnd/canonical-model` (see docs and SCT_Enhanced_System_Design_And_Build_Scope.md).
