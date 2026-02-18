@@ -31,9 +31,24 @@ const top = recommendTopN(workOrder, candidates, { topN: 2 });
 
 Optional for radius: set `ship_to.latitude`, `ship_to.longitude` and tech `latitude`/`longitude`; use `maxRadiusMiles` in config.
 
-## Future (M3.2–M3.5)
+## M3.2 – Scheduling suggestions; anomaly alerts
 
-- M3.2: Scheduling suggestions; anomaly alerts (TAT, rejection, stuck WOs).
-- M3.3: Document/notes extraction (LLM) for WO fields.
-- M3.4: Optional conversational dispatch.
-- M3.5: Integration with AI-led agents (parts, claims, outbound comms).
+- **Scheduling:** `getReadyToSchedule(workOrders, { statuses })` – WOs in `scheduling`/`parts_shipped` with no `appointment_date`. `suggestAppointmentWindows(wo, { slotsCount })` – next N weekday dates within requested window. `getSchedulingSuggestions(workOrders, singleWo?, options)` – combined. API: `GET /v1/ai/scheduling-suggestions?wo_id=…&slots_count=5`.
+- **Anomaly:** `detectAnomalies(workOrders, { tatThresholdDays, stuckThresholdDays })` – returns list of `tat_breach`, `tat_at_risk`, `stuck`, `rejection`, `rejection_spike`. API: `GET /v1/ai/anomalies?tat_threshold_days=7&stuck_threshold_days=5`.
+
+## M3.3 – Document/notes extraction (LLM)
+
+- **Extraction:** `extractWoFieldsFromText(text, options)` – calls OpenAI (env `OPENAI_API_KEY`); returns `{ suggested_wo_fields, error? }`. Fields: problem, product (brand, model, serial), ship_to (name, address_line1, city, state, zip, phone), instructions, requested_date_start/end. Schema aligns with canonical WO; human reviews before create.
+- **API:** `POST /v1/ai/extract-notes` body `{ "text": "…" }` → `{ suggested_wo_fields, error? }`. Wire to WO create: human merges suggested_wo_fields with required external_id, provider_key, payer_type, service_type and POSTs to `POST /v1/work-orders`.
+
+## M3.4 – Conversational dispatch
+
+- **Parse:** `parseDispatchUtterance(utterance)` → `{ intent, entities, suggested_actions }`. Rule-based (no LLM). Intents: `schedule_wo`, `list_open`, `assign_wo`, `unknown`. Entities: zip, wo_id, date. Suggested actions are GET/POST descriptions; human confirms before execution.
+- **API:** `POST /v1/ai/dispatch-parse` body `{ "utterance": "…" }` → same. Supported phrases: see `packages/ai/src/dispatch/SUPPORTED_PHRASES.md`.
+
+## M3.5 – AI-led agents (human in the loop)
+
+- **Parts reconciliation:** `suggestPartsReconciliation(workOrders, trackingEvents)` → suggestions (parts_shipped / return_received); `suggestOpenCores(workOrders, options)` → open_cores list. Human approves before updating WO/parts.
+- **Claim-processing:** `prepareClaim(wo)` → proposed_claim, ready_for_submit, denial_reasons; `proposeClaimStatusUpdate(providerResponse, wo)` after provider response. Human submits/approves.
+- **Tech comms:** `suggestTechReminders(workOrders, options)` → pending_messages (appointment_reminder, parts_delivered_schedule, cores_return_reminder) with draft_content. Human approves before send.
+- **API:** POST `/v1/ai/agents/parts/suggest`, `/v1/ai/agents/claims/prepare`, `/v1/ai/agents/tech-comms/suggest`. Invoke and approval flows: `packages/ai/src/agents/README.md`.

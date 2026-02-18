@@ -1,18 +1,23 @@
 # Live Instructions: Morgan (AI & Automation Engineer)
 
 **Agent:** Morgan  
-**Last updated:** 2026-02-17
+**Last updated:** 2026-02-18
 
 ---
 
 ## Current focus
 
-1. Phase 3: M3.1 done (routing/assignment in `packages/ai`). Next: M3.2 (scheduling, anomaly), M3.3 (document extraction), M3.4 (conversational dispatch), M3.5 (AI-led agents integration).
+1. ~~M3.1~~ Done (routing/assignment in `packages/ai`).
+2. ~~M3.2~~ Done (scheduling suggestions + anomaly alerts; GET /v1/ai/scheduling-suggestions, GET /v1/ai/anomalies).
+3. ~~M3.3~~ Done (document/notes extraction; POST /v1/ai/extract-notes, OPENAI_API_KEY).
+4. ~~M3.4~~ Done (conversational dispatch; POST /v1/ai/dispatch-parse, rule-based intent/entities).
+5. ~~M3.5~~ Done (AI-led agents: parts reconciliation, claim-processing, tech-comms; POST /v1/ai/agents/*). **Phase 3 complete.**
 
 ## Next actions
 
-- Take next Pending Morgan task from CHECKLIST (M3.2 when ready).
-- Update CHECKLIST for each M3.x when done.
+1. **Read** `docs/PHASE3_HANDOFF.md` and `agents/live/checklists/Phase3.md`.
+2. **Phase 3 complete.** No further M3.x tasks. Check CHECKLIST for Phase 4 (e.g. M4.3 billing/claims with Corey) or support as needed.
+3. **Update** build-notes and checklists when completing any task.
 
 ## Where to find new work
 

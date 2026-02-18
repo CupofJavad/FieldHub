@@ -16,8 +16,8 @@
 
 **Phase 0:** Complete (including M0.7 first push).  
 **Phase 1:** Complete (M1.1–M1.5 Done). Phase 1 GitHub sync done.  
-**Phase 2:** Complete (M2.1–M2.5 Done). Phase 2 GitHub sync in progress.  
-**Phase 3:** Active. Next: Morgan (M3.2–M3.5), others per CHECKLIST.
+**Phase 2:** Complete (M2.1–M2.5 Done). Phase 2 GitHub sync done.  
+**Phase 3:** Complete (M3.1–M3.5 Done). Phase 3 GitHub sync done.
 
 ---
 
@@ -25,22 +25,21 @@
 
 | Agent | Next action |
 |-------|-------------|
-| **Jordan** / **Archie** | Phase 2 sync in progress. Next: GitHub sync after Phase 3 complete; Jordan M4.4, M4.5 in Phase 4. |
+| **Jordan** / **Archie** | Phase 3 sync done. Next: GitHub sync after Phase 4 complete. Jordan: M4.4 (security, audit, backup, monitoring); M4.5 after. |
 | **Corey** | **Done** (M2.1). Next: M4.3 (billing/claims) in Phase 4; support as needed. |
 | **Dana** | **Done** (M2.3). Next: M4.1 (more providers) in Phase 4. |
 | **Sam** | **Done** (M2.4). Next: M4.2 (more adapters, unified pool) in Phase 4. |
-| **Riley** | **Done** (M2.2, M2.5). Next: Phase 3/4 per CHECKLIST. |
-| **Morgan** | M3.1 Done. Next: M3.2 (scheduling, anomaly alerts), M3.3–M3.5. |
+| **Riley** | **Done** (M2.2, M2.5). Next: Phase 4 per CHECKLIST. |
+| **Morgan** | **Phase 3 complete** (M3.1–M3.5). Next: Phase 4 support (e.g. M4.3 billing/claims) or ad-hoc per CHECKLIST. |
 | **Quinn** | Support Phase 3 testing; Phase 4 deployment checks with Jordan. |
-| **Archie** | Keep CHECKLIST and STATUS accurate; trigger GitHub sync after Phase 3 complete. |
+| **Archie** | Keep CHECKLIST and STATUS accurate. Phase 3 sync done; trigger GitHub sync when Phase 4 complete. |
 
 ---
 
-## Dependency order (Phase 2)
+## Dependency order (Phase 4)
 
-1. **Corey** M2.1 (service-type engine) unblocks completion validation across flows.
-2. **Riley** M2.2 (Report Center), M2.5 (export). **Dana** M2.3, **Sam** M2.4 in parallel as needed.
-3. **GitHub sync** (Jordan/Archie) after Phase 2 complete.
+1. **Dana** M4.1, **Sam** M4.2, **Corey/Morgan** M4.3, **Jordan** M4.4, **Jordan/Quinn** M4.5.
+2. **Archie** coordinates; triggers GitHub sync when Phase 4 complete.
 
 ---
 

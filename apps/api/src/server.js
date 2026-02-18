@@ -13,6 +13,15 @@ const { getServiceTypes } = require('./routes/service-types');
 const { postInboundOemMock, postInboundExtWarrantyNew } = require('./routes/inbound');
 const { postWebhookFieldWorkmarket, postWebhookFieldNation } = require('./routes/webhooks');
 const { postWebhookInbound } = require('./routes/webhooks-inbound');
+const {
+  getSchedulingSuggestionsHandler,
+  getAnomaliesHandler,
+  postExtractNotesHandler,
+  postDispatchParseHandler,
+  postAgentsPartsSuggestHandler,
+  postAgentsClaimsPrepareHandler,
+  postAgentsTechCommsSuggestHandler,
+} = require('./routes/ai');
 
 const log = createLogger('api');
 const app = express();
@@ -48,6 +57,14 @@ app.post('/v1/inbound/ext_warranty_new', postInboundExtWarrantyNew);
 app.post('/webhooks/field/workmarket', postWebhookFieldWorkmarket);
 app.post('/webhooks/field/fieldnation', postWebhookFieldNation);
 app.post('/webhooks/inbound/:provider_key', postWebhookInbound);
+
+app.get('/v1/ai/scheduling-suggestions', getSchedulingSuggestionsHandler);
+app.get('/v1/ai/anomalies', getAnomaliesHandler);
+app.post('/v1/ai/extract-notes', postExtractNotesHandler);
+app.post('/v1/ai/dispatch-parse', postDispatchParseHandler);
+app.post('/v1/ai/agents/parts/suggest', postAgentsPartsSuggestHandler);
+app.post('/v1/ai/agents/claims/prepare', postAgentsClaimsPrepareHandler);
+app.post('/v1/ai/agents/tech-comms/suggest', postAgentsTechCommsSuggestHandler);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'api' });

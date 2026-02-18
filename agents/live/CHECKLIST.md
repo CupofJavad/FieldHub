@@ -1,7 +1,7 @@
 # TGND Live Checklist – Single Source of Truth for Agent Tasks
 
-**Last updated:** 2026-02-18 (Jordan: Phase 2 complete, GitHub sync)  
-**Current focus:** Phase 2 complete (M2.1–M2.5). Phase 3 – Morgan (M3.2–M3.5). When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
+**Last updated:** 2026-02-18 (Archie: Phase 3 GitHub sync)  
+**Current focus:** Phase 3 complete (M3.1–M3.5). Phase 3 GitHub sync done. Phase 4 – M4.1–M4.5. When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
 **Rules:** Each agent updates their own rows when they complete work. Check this file periodically for new tasks assigned to you. Do not remove or alter other agents’ task rows without coordination.
 
 ---
@@ -49,10 +49,10 @@
 | ID | Task | Owner | Status |
 |----|------|--------|--------|
 | M3.1 | Rule-based routing/assignment (zip, radius, skills); optional “recommend top N” | Morgan | ☑ Done 2026-02-17 |
-| M3.2 | Scheduling suggestions; anomaly alerts (TAT, rejection, stuck WOs) | Morgan | ☐ Pending |
-| M3.3 | Document/notes extraction (LLM) for WO fields | Morgan | ☐ Pending |
-| M3.4 | Optional conversational dispatch (parse “schedule …” → API) | Morgan | ☐ Pending |
-| M3.5 | Integration with AI-led agents (parts, claims, outbound comms) per SCT AI model | Morgan / Archie | ☐ Pending |
+| M3.2 | Scheduling suggestions; anomaly alerts (TAT, rejection, stuck WOs) | Morgan | ☑ Done 2026-02-18 |
+| M3.3 | Document/notes extraction (LLM) for WO fields | Morgan | ☑ Done 2026-02-18 |
+| M3.4 | Optional conversational dispatch (parse “schedule …” → API) | Morgan | ☑ Done 2026-02-18 |
+| M3.5 | Integration with AI-led agents (parts, claims, outbound comms) per SCT AI model | Morgan / Archie | ☑ Done 2026-02-18 |
 
 ---
 
