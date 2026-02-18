@@ -7,22 +7,15 @@
 
 ## Current focus
 
-1. Keep `agents/live/CHECKLIST.md` accurate.
+1. Keep `agents/live/CHECKLIST.md` and `agents/live/STATUS.md` accurate.
 2. Coordinate agents and unblock as needed.
-3. **M0.7:** Ensure the first GitHub push is completed (by you or Jordan). Repo is initialized and committed; only remote add + push remains. See `docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md`.
-4. After M0.7 is Done, Phase 0 is complete; then Phase 1 is active (Corey M1.1/M1.3, Dana M1.2, Sam M1.5).
+3. **Phase 1:** Complete (M1.2, M1.5 Done). Phase 1 GitHub sync done.
+4. **Phase 2:** Coordination. After Phase 2 is complete (M2.1–M2.5 Done), trigger GitHub sync (you or Jordan).
 
 ## Next actions
 
-- **M0.7 – First GitHub push (Archie or Jordan):**
-  - **Repo URL:** `git@github.com:CupofJavad/FieldHub.git`
-  - **Remote add and push (same commands for coordination):**
-    ```bash
-    git remote add origin git@github.com:CupofJavad/FieldHub.git
-    git push -u origin main
-    ```
-  Coordinate with Jordan or do the push yourself if you have access. Update CHECKLIST: set M0.7 to Done when the push succeeds.
-- Read `agents/live/STATUS.md` for the current coordination picture. Periodically read this file and the CHECKLIST for new tasks assigned to you.
+- **GitHub sync:** Next push after **Phase 2 complete**. Repo URL: `git@github.com:CupofJavad/FieldHub.git`. Commands: `git add .` (no .env), `git commit -m "TGND Phase 2 complete: …"`, `git push origin main`. See `docs/GITHUB_SYNC_INSTRUCTIONS.md` and `docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md`.
+- Read `agents/live/STATUS.md` and CHECKLIST for the current coordination picture. Periodically read this file and the CHECKLIST for new tasks assigned to you.
 
 ## Where to find new work
 
