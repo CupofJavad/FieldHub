@@ -16,7 +16,8 @@
 
 **Phase 0:** Complete (including M0.7 first push).  
 **Phase 1:** Complete (M1.1–M1.5 Done). Phase 1 GitHub sync done.  
-**Phase 2:** Active. Next: Corey (M2.1), Riley (M2.2, M2.5), Dana (M2.3), Sam (M2.4).
+**Phase 2:** Complete (M2.1–M2.5 Done). Phase 2 GitHub sync in progress.  
+**Phase 3:** Active. Next: Morgan (M3.2–M3.5), others per CHECKLIST.
 
 ---
 
@@ -24,14 +25,14 @@
 
 | Agent | Next action |
 |-------|-------------|
-| **Jordan** / **Archie** | Phase 1 sync Done. Next: GitHub sync after Phase 2 complete; keep CHECKLIST and coordination updated. |
-| **Corey** | **Do M2.1.** Service-type engine (OSR, OSS, installation, etc.); completion validation. Update checklists + build-notes. |
-| **Dana** | **Done** (M1.2). Next: M2.3 (EDI/second provider, webhooks). |
-| **Sam** | **Done** (M1.4, M1.5). Next: M2.4 (second field adapter or internal assign UI). |
-| **Riley** | **Do M2.2, M2.5.** Report Center (open WOs, TAT, tech assign, parts return); export CSV/Excel. Optionally scaffold minimal portal. |
-| **Morgan** | M3.1 Done. Next: M3.2 (scheduling, anomaly alerts). |
-| **Quinn** | Phase 1 E2E verified. Add tests for Phase 2 as needed. |
-| **Archie** | Keep CHECKLIST and STATUS accurate. Phase 2 coordination; trigger GitHub sync after Phase 2 complete. |
+| **Jordan** / **Archie** | Phase 2 sync in progress. Next: GitHub sync after Phase 3 complete; Jordan M4.4, M4.5 in Phase 4. |
+| **Corey** | **Done** (M2.1). Next: M4.3 (billing/claims) in Phase 4; support as needed. |
+| **Dana** | **Done** (M2.3). Next: M4.1 (more providers) in Phase 4. |
+| **Sam** | **Done** (M2.4). Next: M4.2 (more adapters, unified pool) in Phase 4. |
+| **Riley** | **Done** (M2.2, M2.5). Next: Phase 3/4 per CHECKLIST. |
+| **Morgan** | M3.1 Done. Next: M3.2 (scheduling, anomaly alerts), M3.3–M3.5. |
+| **Quinn** | Support Phase 3 testing; Phase 4 deployment checks with Jordan. |
+| **Archie** | Keep CHECKLIST and STATUS accurate; trigger GitHub sync after Phase 3 complete. |
 
 ---
 

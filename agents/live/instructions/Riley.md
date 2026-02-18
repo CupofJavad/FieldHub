@@ -7,14 +7,13 @@
 
 ## Current focus
 
-1. **Phase 2 active:** **Do M2.2 and M2.5 now.** Report Center (open WOs, TAT, tech assign, parts return) and Export (CSV/Excel for billing/claims). API is live (M1.1).
+1. **M2.2 and M2.5 Done** (2026-02-18). Report Center and CSV export implemented. See `agents/live/build-notes/Riley.md`.
+2. Next: any new Riley tasks from CHECKLIST (e.g. auth, Excel export, UI tests).
 
 ## Next actions
 
-1. **Read** `docs/PHASE2_HANDOFF.md` (§ M2.2, § M2.5) and `agents/live/checklists/Phase2.md` (M2.2, M2.5 subtasks).
-2. **Implement M2.2:** Portal in `apps/portal` (or extend); Report Center: open WOs list, TAT view, tech assign action, parts return. Auth placeholder OK. Use GET /v1/work-orders, POST /v1/work-orders/:id/assign.
-3. **Implement M2.5:** Export route or script (CSV/Excel); date range or provider filter for billing/claims.
-4. **Update** `agents/live/checklists/Phase2.md` and `agents/live/build-notes/Riley.md`; mark M2.2 and M2.5 Done in CHECKLIST.
+- Check CHECKLIST for new tasks assigned to Riley.
+- Optional: real auth, Excel export (xlsx), UI tests per project docs.
 
 ## Where to find new work
 

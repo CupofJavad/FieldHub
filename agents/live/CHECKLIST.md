@@ -1,7 +1,7 @@
 # TGND Live Checklist – Single Source of Truth for Agent Tasks
 
-**Last updated:** 2026-02-18 (Archie: Phase 1 complete, GitHub sync)  
-**Current focus:** Phase 1 complete. Phase 2 – Corey (M2.1), Riley (M2.2, M2.5), Dana (M2.3), Sam (M2.4). When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
+**Last updated:** 2026-02-18 (Jordan: Phase 2 complete, GitHub sync)  
+**Current focus:** Phase 2 complete (M2.1–M2.5). Phase 3 – Morgan (M3.2–M3.5). When you complete work, update CHECKLIST + `agents/live/checklists/` + `agents/live/build-notes/<YOU>.md`. See `agents/live/STATUS.md`.  
 **Rules:** Each agent updates their own rows when they complete work. Check this file periodically for new tasks assigned to you. Do not remove or alter other agents’ task rows without coordination.
 
 ---
@@ -37,10 +37,10 @@
 | ID | Task | Owner | Status |
 |----|------|--------|--------|
 | M2.1 | Service-type engine (OSR, OSS, installation, etc.); completion validation | Corey | ☑ Done 2026-02-18 |
-| M2.2 | Report Center: open WOs, TAT, tech assign, parts return (WWTS-style) | Riley | ☐ Pending |
+| M2.2 | Report Center: open WOs, TAT, tech assign, parts return (WWTS-style) | Riley | ☑ Done 2026-02-18 |
 | M2.3 | Add EDI (850/856) or second provider; webhooks from providers if needed | Dana | ☑ Done 2026-02-18 |
 | M2.4 | Second field platform adapter or internal assign UI | Sam | ☑ Done 2026-02-18 |
-| M2.5 | Export: CSV/Excel for billing and claims | Riley | ☐ Pending |
+| M2.5 | Export: CSV/Excel for billing and claims | Riley | ☑ Done 2026-02-18 |
 
 ---
 

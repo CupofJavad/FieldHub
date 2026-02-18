@@ -69,7 +69,7 @@
   </section>
 
   <script>
-    const API = window.location.port === '5174' ? '/api' : (window.TGND_API_URL || 'http://localhost:3000');
+    const API = window.TGND_API_URL || (window.location.port === '5174' ? 'http://localhost:3000' : '/api');
     let workOrders = [];
 
     function qs(id) { return document.getElementById(id); }

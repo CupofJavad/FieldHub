@@ -14,24 +14,24 @@ Use this for **subtask-level** progress. Main status stays in `agents/live/CHECK
 
 ---
 
-## M2.2 – Report Center (Riley)
+## M2.2 – Report Center (Riley) ✅ Done 2026-02-18
 
-- [ ] Read `docs/PHASE2_HANDOFF.md` (§ M2.2)
-- [ ] Portal app in apps/portal (or extend existing); auth placeholder
-- [ ] Open WOs list (filter by status, provider, service_type)
-- [ ] TAT view (requested→assigned, assigned→completed or equivalent)
-- [ ] Tech assign: link/action to assign (POST /v1/work-orders/:id/assign or deep_link)
-- [ ] Parts return: WOs with parts/cores return status if available
-- [ ] Update build-notes/Riley.md and this checklist; mark CHECKLIST M2.2 Done
+- [x] Read `docs/PHASE2_HANDOFF.md` (§ M2.2)
+- [x] Portal app in apps/portal (or extend existing); auth placeholder
+- [x] Open WOs list (filter by status, provider, service_type)
+- [x] TAT view (requested→assigned, assigned→completed or equivalent)
+- [x] Tech assign: link/action to assign (POST /v1/work-orders/:id/assign or deep_link)
+- [x] Parts return: WOs with parts/cores return status if available
+- [x] Update build-notes/Riley.md and this checklist; mark CHECKLIST M2.2 Done
 
 ---
 
-## M2.5 – Export CSV/Excel (Riley)
+## M2.5 – Export CSV/Excel (Riley) ✅ Done 2026-02-18
 
-- [ ] Read `docs/PHASE2_HANDOFF.md` (§ M2.5)
-- [ ] Export: API route or script for CSV (and optionally Excel); fields per handoff
-- [ ] Support date range or provider filter for billing/claims use
-- [ ] Update build-notes and this checklist; mark CHECKLIST M2.5 Done
+- [x] Read `docs/PHASE2_HANDOFF.md` (§ M2.5)
+- [x] Export: API route or script for CSV (and optionally Excel); fields per handoff
+- [x] Support date range or provider filter for billing/claims use
+- [x] Update build-notes and this checklist; mark CHECKLIST M2.5 Done
 
 ---
 

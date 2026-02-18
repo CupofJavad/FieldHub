@@ -18,6 +18,16 @@ const log = createLogger('api');
 const app = express();
 app.use(express.json());
 
+// CORS: allow portal (and other origins in dev) to call API
+app.use((req, res, next) => {
+  const origin = process.env.CORS_ORIGIN || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.use((req, res, next) => {
   req.id = `req-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   next();
