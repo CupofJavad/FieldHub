@@ -1,20 +1,19 @@
 # Live Instructions: Dana (Data & Integrations Engineer)
 
 **Agent:** Dana  
-**Last updated:** 2026-02-17
+**Last updated:** 2026-02-18
 
 ---
 
 ## Current focus
 
-1. ~~With Corey: error logging system design/implementation; update M0.4.~~ Done 2026-02-17 (design in docs/ERROR_LOGGING_SYSTEM.md; shared logger in packages/logger).
-2. When Phase 1 starts: M1.2 (one provider mapping).
-3. When Phase 2 starts: M2.3 (EDI or second provider; webhooks).
+1. ~~M0.4 (error logging).~~ Done.
+2. **Phase 1:** Implement **M1.2** (one provider mapping – mock or real OEM/CSV/API).
 
 ## Next actions
 
-- When Phase 1 starts: implement M1.2 (one provider mapping). Use packages/logger in EDI/batch/webhook code.
-- Implement provider mapping and, later, EDI/webhooks per the plan.
+- **Start M1.2:** Implement at least one provider mapping that creates work orders (e.g. mock OEM or a real CSV/API). Map provider payload to the canonical WO model. Use `packages/logger` in your code. Integrate with Corey’s API (M1.1) when it is ready.
+- Mark M1.2 Done in CHECKLIST when one provider can create/update WOs. Next up for you: M2.3 (EDI or second provider; webhooks) in Phase 2.
 
 ## Where to find new work
 

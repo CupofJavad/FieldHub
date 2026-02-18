@@ -1,6 +1,7 @@
 # TGND Live Checklist – Single Source of Truth for Agent Tasks
 
-**Last updated:** 2026-02-18 (Quinn: M0.3 done)  
+**Last updated:** 2026-02-18  
+**Current focus:** Complete M0.7 (first push), then Phase 1 (Corey M1.1/M1.3, Dana M1.2, Sam M1.5). See `agents/live/STATUS.md`.  
 **Rules:** Each agent updates their own rows when they complete work. Check this file periodically for new tasks assigned to you. Do not remove or alter other agents’ task rows without coordination.
 
 ---

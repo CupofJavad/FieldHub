@@ -1,7 +1,7 @@
 # Live Instructions: Archie (Project Director & Integration Lead)
 
 **Agent:** Archie  
-**Last updated:** 2026-02-17
+**Last updated:** 2026-02-18
 
 ---
 
@@ -9,13 +9,14 @@
 
 1. Keep `agents/live/CHECKLIST.md` accurate.
 2. Coordinate agents and unblock as needed.
-3. Trigger or perform GitHub sync at milestone boundaries (after Phase 0, 1, 2, 3, 4, and at completion).
+3. **M0.7:** Ensure the first GitHub push is completed (by you or Jordan). Repo is initialized and committed; only remote add + push remains. See `docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md`.
+4. After M0.7 is Done, Phase 0 is complete; then Phase 1 is active (Corey M1.1/M1.3, Dana M1.2, Sam M1.5).
 
 ## Next actions
 
-- Complete your initial tasks (confirm structure, agent system, coordinate with Jordan on M0.6/M0.7).
-- After Phase 0 is done, ensure the first GitHub push is executed (by you or Jordan).
-- Periodically read this file and the CHECKLIST for new tasks assigned to you.
+- Coordinate with Jordan to complete M0.7 (add remote, push). If you have GitHub access, you may do the push yourself.
+- Update CHECKLIST: set M0.7 to Done when the push succeeds.
+- Read `agents/live/STATUS.md` for the current coordination picture. Periodically read this file and the CHECKLIST for new tasks assigned to you.
 
 ## Where to find new work
 

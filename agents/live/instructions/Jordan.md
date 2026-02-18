@@ -14,7 +14,7 @@
 ## Next actions
 
 - M0.6 done: Server pre-start (Lacie_Free check doc’d; `scripts/server-env-setup.sh` for dev/test/prod; dependencies doc’d in PRE_START_ACTIONS_AND_SERVER.md).
-- Next: M0.7 – Add `.gitignore` (private files), init repo if needed, first push to GitHub when Phase 0 is complete (coordinate with Archie).
+- **M0.7 now:** Repo is already initialized with initial commit; `.gitignore` in place. Open **`docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md`**, add remote, then `git push -u origin main`. Mark M0.7 Done in CHECKLIST when push succeeds.
 
 ## Where to find new work
 

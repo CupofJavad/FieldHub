@@ -13,9 +13,8 @@
 
 ## Next actions
 
-- M0.3 done: unit testing scaffold (generators/openapi-to-tests, generators/schema-to-tests, README, tgnd-test-run.sh).
-- Add tests as API and adapters are built; implement generators in Phase 1–2.
-- Follow `docs/UNIT_TESTING_GENERATION_SYSTEM.md`; run tests via `tools/testing/tgnd-test-run.sh`.
+- M0.3 done. **Phase 1:** Add tests as Corey (M1.1/M1.3), Dana (M1.2), and Sam deliver. Support M1.5 validation (end-to-end flow). Run `tools/testing/tgnd-test-run.sh`.
+- See `agents/live/STATUS.md` for current focus.
 
 ## Where to find new work
 

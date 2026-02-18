@@ -1,19 +1,19 @@
 # Live Instructions: Riley (Portal & Report Center Engineer)
 
 **Agent:** Riley  
-**Last updated:** 2026-02-17
+**Last updated:** 2026-02-18
 
 ---
 
 ## Current focus
 
-1. When API and WO data exist (Phase 1): scaffold portal and minimal Report Center.
-2. Phase 2: M2.2 (full Report Center – TAT, tech assign, parts return), M2.5 (CSV/Excel exports).
+1. **Phase 1–2:** Portal and Report Center. Corey’s API (M1.1) is the dependency for live data.
+2. **Phase 2:** M2.2 (Report Center: open WOs, TAT, tech assign, parts return), M2.5 (CSV/Excel exports).
 
 ## Next actions
 
-- Implement portal and Report Center when dependencies are ready.
-- Update CHECKLIST for M2.2 and M2.5 when done.
+- **Option A:** Scaffold the portal app in `apps/portal` (e.g. SvelteKit or Next.js) with auth placeholder and a minimal “open WOs” view that will call the API once M1.1 is live.
+- **Option B:** Wait until M1.1 is done, then build the portal and Report Center against the real API. When ready, implement M2.2 and M2.5 and mark them Done in CHECKLIST.
 
 ## Where to find new work
 

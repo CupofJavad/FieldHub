@@ -12,8 +12,8 @@
 
 ## Next actions
 
-- When apps/api exists: wire adapter into WO assignment flow (use platform_job_id from push; optional POST /webhooks/field/workmarket for status).
-- Phase 2: implement M2.4 (second field platform adapter or internal assign UI); update CHECKLIST when done.
+- **M1.5:** When Corey's API (M1.1) exists, wire your adapter into the WO assignment flow (platform_job_id from push; optional POST /webhooks/field/workmarket for status). Support end-to-end: provider creates WOs → system assigns to platform → completion updates WO.
+- See `agents/live/STATUS.md` for coordination. Phase 2: M2.4 (second adapter or internal assign UI).
 
 ## Where to find new work
 
