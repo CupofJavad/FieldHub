@@ -1,49 +1,55 @@
-# Field Nation Webhook Handler Spec
+# Field Nation completion webhook – TGND
 
-**Purpose:** Define how TGND should handle incoming webhooks from Field Nation so WO status stays in sync.  
-**Source:** [Field Nation Webhooks – How it Works](https://developer.fieldnation.com/client-api/webhooks/howitworks/), [Webhooks Object](https://developer.fieldnation.com/client-api/webhooks/webhooks_object/), [Securing Webhooks](https://developer.fieldnation.com/client-api/webhooks/secure).
+**Purpose:** Contract for Field Nation (or a test client) to notify TGND when a job’s status changes (e.g. Work Done → WO completed).
 
 ---
 
 ## Endpoint
 
-- **TGND route:** `POST /webhooks/field/fieldnation`
-- **Register this URL** with Field Nation via [Create Webhook](https://developer.fieldnation.com/client-api/webhooks/webhooks_create/). Subscribe to events and status changes needed for TGND (e.g. workorder.created, workorder.routed, Provider Checked In, Provider Checked Out, Work Done, Schedule Updated, Cancelled).
+**POST** `/webhooks/field/fieldnation`
+
+- **Content-Type:** `application/json`
+- **Auth:** None for now; in production use signature verification per [Field Nation Webhooks](https://developer.fieldnation.com/client-api/webhooks/howitworks/).
 
 ---
 
-## Request from Field Nation
+## Request body
 
-- **Method:** POST  
-- **Body:** Full [Work Order Object](https://developer.fieldnation.com/client-api/restapi/components/workorder_object/) plus event/status-specific params (e.g. `event`, `params`).  
-- **Signature:** If you set a `secret` when creating the webhook, Field Nation signs the request. Verify the signature per [Securing Webhooks](https://developer.fieldnation.com/client-api/webhooks/secure) before trusting the payload.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `platform_job_id` | string | Yes* | TGND-stored Field Nation work order id (same as `work_order_id` in FN API). |
+| `work_order_id` | string | Alt | Accepted as alias for `platform_job_id` if `platform_job_id` is missing. |
+| `status` | string | Yes | Field Nation status name, e.g. `Work Done`, `Assigned`, `Cancelled`. |
+| `status_name` | string | Alt | Accepted as alias for `status`. |
+| `completion_payload` | object | No | TGND completion payload (result, parts_used, notes, etc.). |
+| `closing_notes` | string | No | If present and no `completion_payload`, stored as `{ notes: closing_notes }`. |
 
----
+\* One of `platform_job_id` or `work_order_id` is required.
 
-## Handler logic
+TGND maps FN status to lifecycle using `fieldNationStatusToTgnd()`:
 
-1. **Verify signature** (if secret is configured) using the webhook secret (store in env, e.g. `FIELD_NATION_WEBHOOK_SECRET`).
-2. **Parse body:** Extract work order `id` (Field Nation work order id = TGND `platform_job_id`) and `status` (e.g. `status.name` or `status.display`).
-3. **Look up TGND WO:** Find the work order where `platform_job_id = id` and `platform_type = 'fieldnation'`.
-4. **Map status:** Use `fieldNationStatusToTgnd(status.name)` from `@tgnd/outbound-adapters` (see `docs/field-mapping-fieldnation.md`) to get TGND status.
-5. **Update WO:** PATCH the TGND work order (e.g. `PATCH /v1/work-orders/:id` or internal update) with `status` and optionally `metadata.fn_last_event`, `metadata.fn_updated_at`. If status is `completed`, optionally store completion payload (e.g. closing_notes, time_logs) in metadata or a completion table.
-6. **Respond:** Return HTTP 2xx quickly (e.g. 200). If you return non-2xx, Field Nation may retry (see Error Handling in their docs).
-
----
-
-## Events / statuses to handle
-
-| Event / status change | TGND action |
-|------------------------|-------------|
-| workorder.created      | Optional: ensure WO exists in TGND or ignore if WO was created by TGND. |
-| workorder.routed       | Set TGND status to `scheduling` if not already assigned. |
-| Provider Checked In    | Set TGND status to `in_progress`. |
-| Provider Checked Out / Work Done | Set TGND status to `completed`; store completion payload. |
-| Schedule Updated      | Update TGND `appointment_date` from FN schedule. |
-| Cancelled / Deleted    | Set TGND status to `cancelled`. |
+- `Work Done`, `Approved`, `Paid` → WO `status = completed`
+- `Cancelled`, `Deleted`, etc. → `cancelled`
+- Other (e.g. `Assigned`) → acknowledged; WO not changed unless we add more transitions later.
 
 ---
 
-## Implementation
+## Response
 
-- Implement the route in `apps/api` (e.g. `routes/webhooks-fieldnation.js`). Use `@tgnd/outbound-adapters` `fieldNationStatusToTgnd` for mapping. Use `packages/logger` for logging. Look up WO by `platform_job_id` in DB and call existing update logic (e.g. same as PATCH work-orders).
+- **200** `{ "received": true }` – Webhook accepted (WO updated to completed if applicable, or ack only).
+- **400** – Bad request (e.g. missing `platform_job_id`) or completion validation failed (required fields for service_type).
+
+---
+
+## Example (completion)
+
+```json
+POST /webhooks/field/fieldnation
+{
+  "platform_job_id": "fn-mock-abc-123",
+  "status": "Work Done",
+  "completion_payload": { "result": "success", "parts_used": [] }
+}
+```
+
+Response: `200 { "received": true }`. TGND finds the WO by `platform_job_id`, runs completion validation (M2.1), and sets WO `status = completed` and stores `completion_payload`.

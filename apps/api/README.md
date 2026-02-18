@@ -21,6 +21,8 @@ REST API for work orders: POST/GET/PATCH `/v1/work-orders`. Idempotency by `prov
 |--------|------|-------------|
 | POST | /v1/work-orders | Create or upsert WO (body: external_id, provider_key, payer_type, service_type, …) |
 | POST | /v1/inbound/oem_mock | Provider-specific: OEM mock JSON → map to canonical → create WO (po_number/rma_number, ship_to, problem, …) |
+| POST | /v1/inbound/ext_warranty_new | Provider-specific: Extended warranty (NEW-style) JSON → map → create (auth_number, auth_limit, ship_to, …) |
+| POST | /webhooks/inbound/:provider_key | Inbound webhook: provider sends payload; map by provider_key (oem_mock, ext_warranty_new) → create/upsert WO |
 | GET | /v1/work-orders/:id | Get by internal id |
 | GET | /v1/work-orders?provider=&external_id= | Get by provider + external_id |
 | PATCH | /v1/work-orders/:id | Update status/fields; lifecycle transitions enforced |

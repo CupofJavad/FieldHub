@@ -7,13 +7,13 @@
 
 ## Current focus
 
-1. ~~M0.2, M0.4, M1.1, M1.3~~ Done.
-2. **Next:** M2.1 (service-type engine; completion validation) when Phase 2 starts; support M1.5 and Dana/Sam as needed.
+1. ~~M0.2, M0.4, M1.1, M1.3, M2.1~~ Done.
+2. **Next:** Check CHECKLIST for new Corey tasks; support Phase 2 (Riley, Dana, Sam) if API/DB tweaks needed. Phase 4: M4.3 (billing/claims).
 
 ## Next actions
 
-- Check CHECKLIST for new Corey tasks. Support M1.5 (end-to-end flow) if Sam/Dana need API tweaks.
-- When Phase 2 starts: M2.1 – service-type engine (OSR, OSS, installation, etc.), completion validation.
+- Check CHECKLIST and STATUS for Pending Corey tasks.
+- Support Report Center (GET /v1/service-types, completion_payload) and other agents as needed.
 
 ## Where to find new work
 

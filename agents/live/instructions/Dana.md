@@ -9,12 +9,12 @@
 
 1. ~~M0.4 (error logging).~~ Done.
 2. ~~M1.2 (one provider mapping).~~ Done 2026-02-18.
-3. **Phase 2:** When Phase 2 starts: **M2.3** (EDI 850/856 or second provider; webhooks from providers).
+3. ~~**Phase 2 M2.3** (EDI / second provider / webhooks).~~ Done 2026-02-18.
 
 ## Next actions
 
-- **M2.3** when unblocked: Add EDI (850/856) or a second provider mapping; webhooks from providers if needed. Reuse `packages/inbound-adapters` pattern and POST /v1/inbound/:provider or /webhooks/:provider.
-- Check CHECKLIST and this file for new work.
+- Check **CHECKLIST.md** for next Dana task (e.g. Phase 4 M4.1 – more providers).
+- When adding EDI (850/856) later: add parser in packages/inbound-adapters, output canonical; ingest via script or POST to API/webhook.
 
 ## Where to find new work
 

@@ -8,9 +8,12 @@ const {
   getWorkOrderById,
   getWorkOrderByProviderAndExternal,
   updateWorkOrder,
+  listWorkOrders,
+  getServiceTypeConfig,
 } = require('../db');
 const { PAYER_TYPES, SERVICE_TYPES, WO_STATUS, canTransition } = require('@tgnd/canonical-model');
-const { createWorkMarketAdapter } = require('@tgnd/outbound-adapters');
+const { createWorkMarketAdapter, createFieldNationAdapter } = require('@tgnd/outbound-adapters');
+const { validateCompletion } = require('../service-type-engine');
 
 const log = createLogger('api');
 
@@ -90,12 +93,13 @@ async function postWorkOrder(req, res) {
   }
 }
 
-/** GET /v1/work-orders/:id or GET /v1/work-orders?provider=&external_id= */
+/** GET /v1/work-orders/:id or GET /v1/work-orders?provider=&external_id= or GET /v1/work-orders?status=&provider_key=&service_type= (list) */
 async function getWorkOrder(req, res) {
   const requestId = req.id || `req-${Date.now()}`;
   const reqLog = log.child({ requestId });
   const { id } = req.params;
-  const { provider: provider_key, external_id } = req.query;
+  const { provider: provider_key, external_id, status, provider_key: qProvider, service_type, date_from, date_to } = req.query;
+  const provider = provider_key || qProvider;
   if (id) {
     const wo = await getWorkOrderById(id);
     if (!wo) {
@@ -103,17 +107,21 @@ async function getWorkOrder(req, res) {
     }
     return res.json(wo);
   }
-  if (provider_key && external_id) {
-    const wo = await getWorkOrderByProviderAndExternal(provider_key, external_id);
+  if (provider && external_id) {
+    const wo = await getWorkOrderByProviderAndExternal(provider, external_id);
     if (!wo) {
       return res.status(404).json({ error: 'Work order not found', code: 'WO_NOT_FOUND' });
     }
     return res.json(wo);
   }
-  return res.status(400).json({
-    error: 'Provide path param :id or query provider and external_id',
-    code: 'WO_GET_BAD_REQUEST',
-  });
+  const filters = {};
+  if (status) filters.status = status;
+  if (provider) filters.provider_key = provider;
+  if (service_type) filters.service_type = service_type;
+  if (date_from) filters.date_from = date_from;
+  if (date_to) filters.date_to = date_to;
+  const work_orders = await listWorkOrders(filters);
+  return res.json({ work_orders });
 }
 
 /** PATCH /v1/work-orders/:id – status and optional field updates; lifecycle enforced */
@@ -137,6 +145,17 @@ async function patchWorkOrder(req, res) {
         code: 'WO_LIFECYCLE_INVALID',
       });
     }
+    // M2.1: completion validation – when transitioning to completed, require fields per service_type_config
+    if (body.status === 'completed') {
+      const config = await getServiceTypeConfig(wo.service_type);
+      const patchPreview = { ...wo };
+      if (body.completion_payload !== undefined) patchPreview.completion_payload = body.completion_payload;
+      const validation = validateCompletion(patchPreview, config || {});
+      if (!validation.valid) {
+        reqLog.warn('Completion validation failed', 'WO_COMPLETION_VALIDATION_FAILED', { reason: validation.message });
+        return res.status(400).json({ error: validation.message, code: 'WO_COMPLETION_VALIDATION_FAILED' });
+      }
+    }
   }
   try {
     const patch = {};
@@ -149,6 +168,7 @@ async function patchWorkOrder(req, res) {
     if (body.metadata !== undefined) patch.metadata = body.metadata;
     if (body.platform_job_id !== undefined) patch.platform_job_id = body.platform_job_id;
     if (body.platform_type !== undefined) patch.platform_type = body.platform_type;
+    if (body.completion_payload !== undefined) patch.completion_payload = body.completion_payload;
     const updated = await updateWorkOrder(id, patch);
     reqLog.info('Work order updated', null, { id: updated.id, status: updated.status });
     return res.json(updated);
@@ -159,12 +179,21 @@ async function patchWorkOrder(req, res) {
 }
 
 const ASSIGNABLE_STATUSES = ['scheduling', 'parts_shipped'];
+const ALLOWED_PLATFORM_TYPES = ['workmarket', 'fieldnation'];
 
-/** POST /v1/work-orders/:id/assign – push WO to field platform, set status=assigned, platform_job_id, platform_type */
+/** POST /v1/work-orders/:id/assign – push WO to field platform, set status=assigned, platform_job_id, platform_type.
+ *  Optional: ?platform_type=workmarket|fieldnation or body { platform_type }. Default: workmarket. */
 async function postAssign(req, res) {
   const requestId = req.id || `req-${Date.now()}`;
   const reqLog = log.child({ requestId });
   const { id } = req.params;
+  const platformType = (req.query.platform_type || req.body?.platform_type || 'workmarket').toLowerCase();
+  if (!ALLOWED_PLATFORM_TYPES.includes(platformType)) {
+    return res.status(400).json({
+      error: `platform_type must be one of: ${ALLOWED_PLATFORM_TYPES.join(', ')}`,
+      code: 'WO_ASSIGN_BAD_PLATFORM',
+    });
+  }
   const wo = await getWorkOrderById(id);
   if (!wo) {
     return res.status(404).json({ error: 'Work order not found', code: 'WO_NOT_FOUND' });
@@ -181,15 +210,18 @@ async function postAssign(req, res) {
       code: 'WO_ALREADY_ASSIGNED',
     });
   }
+  const logger = (lvl, msg, ctx) => reqLog[lvl](msg, null, ctx);
+  const adapter = platformType === 'fieldnation'
+    ? createFieldNationAdapter({ logger })
+    : createWorkMarketAdapter({ logger });
   try {
-    const adapter = createWorkMarketAdapter({ logger: (lvl, msg, ctx) => reqLog[lvl](msg, null, ctx) });
     const result = await adapter.push(wo);
     const updated = await updateWorkOrder(id, {
       status: 'assigned',
       platform_job_id: result.platform_job_id,
       platform_type: result.platform_type,
     });
-    reqLog.info('Work order assigned to platform', null, { id: updated.id, platform_job_id: result.platform_job_id });
+    reqLog.info('Work order assigned to platform', null, { id: updated.id, platform_job_id: result.platform_job_id, platform_type: result.platform_type });
     return res.json(updated);
   } catch (err) {
     reqLog.error('Assign to platform failed', 'WO_ASSIGN_FAILED', err);
@@ -197,9 +229,57 @@ async function postAssign(req, res) {
   }
 }
 
+/** GET /v1/work-orders/export?format=csv&provider_key=&status=&date_from=&date_to= – CSV/Excel for billing and claims (M2.5) */
+async function getExport(req, res) {
+  const requestId = req.id || `req-${Date.now()}`;
+  const reqLog = log.child({ requestId });
+  const { format = 'csv', provider_key, status, date_from, date_to } = req.query;
+  const filters = {};
+  if (provider_key) filters.provider_key = provider_key;
+  if (status) filters.status = status;
+  if (date_from) filters.date_from = date_from;
+  if (date_to) filters.date_to = date_to;
+  const work_orders = await listWorkOrders(filters);
+  if (format === 'csv') {
+    const header = 'id,external_id,provider_key,status,service_type,ship_to_address,appointment_date,platform_job_id,platform_type,completed_at,created_at,updated_at';
+    const escape = (v) => {
+      if (v == null) return '';
+      const s = String(v);
+      return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const rows = work_orders.map((wo) => {
+      const shipTo = wo.ship_to && typeof wo.ship_to === 'object' ? (wo.ship_to.address_line1 || wo.ship_to.street || '') : '';
+      const completed_at = wo.status === 'completed' && wo.updated_at ? wo.updated_at : '';
+      return [
+        wo.id,
+        wo.external_id,
+        wo.provider_key,
+        wo.status,
+        wo.service_type,
+        shipTo,
+        wo.appointment_date || '',
+        wo.platform_job_id || '',
+        wo.platform_type || '',
+        completed_at,
+        wo.created_at || '',
+        wo.updated_at || '',
+      ].map(escape).join(',');
+    });
+    const csv = [header, ...rows].join('\r\n');
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="work-orders-export.csv"');
+    return res.send(csv);
+  }
+  if (format === 'json') {
+    return res.json({ work_orders });
+  }
+  return res.status(400).json({ error: 'format must be csv or json', code: 'EXPORT_BAD_FORMAT' });
+}
+
 module.exports = {
   postWorkOrder,
   getWorkOrder,
   patchWorkOrder,
   postAssign,
+  getExport,
 };

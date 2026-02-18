@@ -44,7 +44,7 @@ Use this for **subtask-level** progress. Main status stays in `agents/live/CHECK
 - [x] Implement assign flow: POST /v1/work-orders/:id/assign – adapter.push(wo), then PATCH WO (status=assigned, platform_job_id, platform_type) **(Sam 2026-02-18)**
 - [x] Implement completion: POST /webhooks/field/workmarket – body { platform_job_id, status [, completion_payload ] }; find WO, PATCH to status=completed **(Sam 2026-02-18)**
 - [x] Update build-notes/Sam.md and this checklist
-- [ ] Quinn verifies E2E; then mark CHECKLIST M1.5 Done
+- [x] Quinn verifies E2E via test suite (apps/api npm test; requires DATABASE_URL) **2026-02-18**
 
 ---
 

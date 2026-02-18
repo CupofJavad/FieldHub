@@ -9,12 +9,13 @@
 
 1. ~~M1.4 (one field platform adapter – push job, platform_job_id, status sync).~~ Done 2026-02-17.
 2. ~~M1.5 (assign + completion flow).~~ Done 2026-02-18.
-3. Phase 2: M2.4 (second adapter or internal assign UI).
+3. **Phase 2 active:** **Do M2.4 now** – second field adapter (e.g. Field Nation) or internal assign UI.
 
 ## Next actions
 
-1. **Phase 2:** M2.4 – second field platform adapter or internal assign UI. When starting: read CHECKLIST, STATUS, and handoff docs as needed.
-2. After Quinn verifies M1.5 E2E, no further Sam action for M1.5.
+1. **Read** `docs/PHASE2_HANDOFF.md` (§ M2.4) and `agents/live/checklists/Phase2.md` (M2.4 subtasks).
+2. **Implement M2.4:** At least one of: (A) Wire Field Nation into assign flow + completion webhook (see docs/WEBHOOK_FIELD_NATION_SPEC.md), (B) Internal assign UI (list WOs, trigger assign, optional platform choice).
+3. **Update** `agents/live/checklists/Phase2.md` and `agents/live/build-notes/Sam.md`; mark M2.4 Done in CHECKLIST.
 
 ## Where to find new work
 

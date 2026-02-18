@@ -33,6 +33,7 @@ function rowToWorkOrder(row) {
     metadata: row.metadata || {},
     platform_job_id: row.platform_job_id ?? null,
     platform_type: row.platform_type ?? null,
+    completion_payload: row.completion_payload ?? null,
     created_at: row.created_at,
     updated_at: row.updated_at,
   };
@@ -112,7 +113,42 @@ async function getWorkOrderByPlatformJobId(platform_job_id) {
   return rowToWorkOrder(res.rows[0]);
 }
 
-const ALLOWED_PATCH_FIELDS = ['status', 'appointment_date', 'product', 'ship_to', 'parts', 'pricing', 'metadata', 'platform_job_id', 'platform_type'];
+/**
+ * List work orders with optional filters (for Report Center and export).
+ * @param {{ status?: string, provider_key?: string, service_type?: string, date_from?: string, date_to?: string }} filters
+ * @returns {Promise<object[]>}
+ */
+async function listWorkOrders(filters = {}) {
+  const conditions = [];
+  const values = [];
+  let i = 1;
+  if (filters.status) {
+    conditions.push(`status = $${i++}`);
+    values.push(filters.status);
+  }
+  if (filters.provider_key) {
+    conditions.push(`provider_key = $${i++}`);
+    values.push(filters.provider_key);
+  }
+  if (filters.service_type) {
+    conditions.push(`service_type = $${i++}`);
+    values.push(filters.service_type);
+  }
+  if (filters.date_from) {
+    conditions.push(`created_at >= $${i++}::timestamptz`);
+    values.push(filters.date_from);
+  }
+  if (filters.date_to) {
+    conditions.push(`created_at <= $${i++}::timestamptz`);
+    values.push(filters.date_to);
+  }
+  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+  const q = `SELECT * FROM work_orders ${where} ORDER BY created_at DESC`;
+  const res = await pool.query(q, values);
+  return res.rows.map(rowToWorkOrder);
+}
+
+const ALLOWED_PATCH_FIELDS = ['status', 'appointment_date', 'product', 'ship_to', 'parts', 'pricing', 'metadata', 'platform_job_id', 'platform_type', 'completion_payload'];
 
 async function updateWorkOrder(id, updates) {
   const client = await pool.connect();
@@ -123,7 +159,7 @@ async function updateWorkOrder(id, updates) {
     for (const key of ALLOWED_PATCH_FIELDS) {
       if (updates[key] === undefined) continue;
       setClauses.push(`${key} = $${i++}`);
-      values.push(['product', 'ship_to', 'parts', 'pricing', 'metadata'].includes(key)
+      values.push(['product', 'ship_to', 'parts', 'pricing', 'metadata', 'completion_payload'].includes(key)
         ? JSON.stringify(updates[key])
         : updates[key]);
     }
@@ -142,6 +178,33 @@ async function updateWorkOrder(id, updates) {
   }
 }
 
+async function getServiceTypeConfig(service_type) {
+  const res = await pool.query(
+    'SELECT * FROM service_type_config WHERE service_type = $1',
+    [service_type]
+  );
+  const row = res.rows[0];
+  if (!row) return null;
+  return {
+    service_type: row.service_type,
+    description: row.description,
+    required_statuses: row.required_statuses || [],
+    required_completion_fields: row.required_completion_fields || [],
+  };
+}
+
+async function getAllServiceTypeConfigs() {
+  const res = await pool.query(
+    'SELECT service_type, description, required_statuses, required_completion_fields FROM service_type_config ORDER BY service_type'
+  );
+  return res.rows.map(row => ({
+    service_type: row.service_type,
+    description: row.description,
+    required_statuses: row.required_statuses || [],
+    required_completion_fields: row.required_completion_fields || [],
+  }));
+}
+
 async function runMigration() {
   const migrationsDir = path.join(__dirname, '../../../db/migrations');
   const files = fs.readdirSync(migrationsDir).filter(f => f.endsWith('.sql')).sort();
@@ -158,5 +221,8 @@ module.exports = {
   getWorkOrderByProviderAndExternal,
   getWorkOrderByPlatformJobId,
   updateWorkOrder,
+  listWorkOrders,
+  getServiceTypeConfig,
+  getAllServiceTypeConfigs,
   runMigration,
 };

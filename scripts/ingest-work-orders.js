@@ -28,9 +28,19 @@ function isOemMockShape(obj) {
   if (!obj || typeof obj !== 'object') return false;
   return (
     obj.provider_key === 'oem_mock' ||
-    typeof obj.po_number === 'string' ||
+    (typeof obj.po_number === 'string' && !obj.auth_number) ||
     typeof obj.rma_number === 'string' ||
     (obj.po && typeof obj.po === 'string')
+  );
+}
+
+function isExtWarrantyNewShape(obj) {
+  if (!obj || typeof obj !== 'object') return false;
+  return (
+    obj.provider_key === 'ext_warranty_new' ||
+    typeof obj.auth_number === 'string' ||
+    typeof obj.ticket_id === 'string' ||
+    typeof obj.claim_id === 'string'
   );
 }
 
@@ -96,10 +106,14 @@ async function main() {
   let fail = 0;
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const useOemMock = isOemMockShape(item);
-    const url = useOemMock
-      ? `${BASE_URL}/v1/inbound/oem_mock`
-      : `${BASE_URL}/v1/work-orders`;
+    let url;
+    if (isOemMockShape(item)) {
+      url = `${BASE_URL}/v1/inbound/oem_mock`;
+    } else if (isExtWarrantyNewShape(item)) {
+      url = `${BASE_URL}/webhooks/inbound/ext_warranty_new`;
+    } else {
+      url = `${BASE_URL}/v1/work-orders`;
+    }
     const { status, body, ok: resOk } = await post(url, item);
     if (resOk) {
       ok++;

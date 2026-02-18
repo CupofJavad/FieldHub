@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-02-18 – M2.3 EDI / second provider / webhooks (Done)
+
+- **Tested (this run):** Fixed server.js missing import for `postInboundExtWarrantyNew` (added to require('./routes/inbound')). Started API on PORT=3001; ran curl against POST /webhooks/inbound/ext_warranty_new (valid payload), POST /webhooks/inbound/oem_mock (valid), POST /webhooks/inbound/unknown_provider (unsupported), POST /webhooks/inbound/ext_warranty_new with invalid payload (missing auth). Results: (1)–(2) mapping and handler run; response 500 with WO_CREATE_FAILED when DB unavailable (ECONNREFUSED), 201 when DB is up. (3) 404 with body `{ error, code: WEBHOOK_INBOUND_UNSUPPORTED_PROVIDER, supported: ['oem_mock','ext_warranty_new'] }`. (4) 400 with WO_VALIDATION_FAILED and reason "external_id, auth_number, ticket_id, or claim_id (string) is required". One channel implemented and documented; tests pass for routing, validation, and error responses.
+- **Implemented Option B (second provider) + Option C (inbound webhook).**
+- **Second provider – ext_warranty_new:**
+  - **packages/inbound-adapters/ext-warranty-new.js:** `mapExtWarrantyNewToCanonical(payload)`. Accepts auth_number, ticket_id, claim_id, auth_limit, claim_type (diag vs repair), ship_to, problem, product; sets payer_type=ext_warranty, service_type default osr; stores auth_number/claim_type in metadata, auth_limit in pricing. Returns `{ canonical }` or `{ error }`.
+  - **POST /v1/inbound/ext_warranty_new** in apps/api/src/routes/inbound.js (same pattern as oem_mock).
+- **Inbound webhook (Option C):**
+  - **POST /webhooks/inbound/:provider_key** in apps/api/src/routes/webhooks-inbound.js. Looks up mapper via `getMapperForProvider(provider_key)`; supported: oem_mock, ext_warranty_new. Maps body to canonical, calls createWorkOrder (idempotent). Returns 201 with { id, external_id, status }; 404 if provider_key not supported (with list of supported); 400 on validation error. Uses @tgnd/logger.
+  - **packages/inbound-adapters:** Added INBOUND_MAPPERS registry, getMapperForProvider(), getSupportedInboundProviders().
+- **Ingest script:** scripts/ingest-work-orders.js now detects ext_warranty_new shape (auth_number, ticket_id, claim_id, or provider_key=ext_warranty_new) and POSTs to /webhooks/inbound/ext_warranty_new.
+- **Docs:** API README and packages/inbound-adapters README updated. No EDI (Option A) this phase; can add 850/856 parser later in packages/inbound-adapters and register in webhook or a separate ingest script.
+
+---
+
 ## 2026-02-18 – M1.2 One provider mapping (Done)
 
 - **Chose Option B + batch script:** API route for provider-specific payload (aligns with “REST primary for modern providers” and future webhooks/EDI); added batch script for CSV/SFTP-style flows that call the same API.
