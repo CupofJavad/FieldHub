@@ -16,7 +16,7 @@
 | M0.4 | Error logging system design and implementation | Corey / Dana | ☑ Done 2026-02-17 |
 | M0.5 | Agent system: live checklist, instruction files, initial prompts delivered | Archie | ☑ Done 2026-02-17 |
 | M0.6 | Server pre-start: Lacie_Free space check; dev/test/prod envs; dependencies | Jordan | ☑ Done 2026-02-17 |
-| M0.7 | Repo init, .gitignore (private files), first push to GitHub | Jordan / Archie | ☐ Pending |
+| M0.7 | Repo init, .gitignore (private files), first push to GitHub | Jordan / Archie | ☑ Done 2026-02-17 |
 
 ---
 

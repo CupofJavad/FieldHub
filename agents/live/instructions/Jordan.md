@@ -14,7 +14,7 @@
 ## Next actions
 
 - M0.6 done: Server pre-start (Lacie_Free check doc’d; `scripts/server-env-setup.sh` for dev/test/prod; dependencies doc’d in PRE_START_ACTIONS_AND_SERVER.md).
-- **M0.7 now:** Repo is already initialized with initial commit; `.gitignore` in place. Open **`docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md`**, add remote, then `git push -u origin main`. Mark M0.7 Done in CHECKLIST when push succeeds.
+- **M0.7 now:** Repo is initialized; `.gitignore` in place. **GitHub repo (owner-provided):** `git@github.com:CupofJavad/FieldHub.git` — Run: `git remote add origin git@github.com:CupofJavad/FieldHub.git` then `git push -u origin main`. Mark M0.7 Done in CHECKLIST when push succeeds. See `docs/M0.7_FIRST_PUSH_INSTRUCTIONS.md` for full steps.
 
 ## Where to find new work
 

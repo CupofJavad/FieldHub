@@ -14,8 +14,14 @@
 
 ## Next actions
 
-- Coordinate with Jordan to complete M0.7 (add remote, push). If you have GitHub access, you may do the push yourself.
-- Update CHECKLIST: set M0.7 to Done when the push succeeds.
+- **M0.7 – First GitHub push (Archie or Jordan):**
+  - **Repo URL:** `git@github.com:CupofJavad/FieldHub.git`
+  - **Remote add and push (same commands for coordination):**
+    ```bash
+    git remote add origin git@github.com:CupofJavad/FieldHub.git
+    git push -u origin main
+    ```
+  Coordinate with Jordan or do the push yourself if you have access. Update CHECKLIST: set M0.7 to Done when the push succeeds.
 - Read `agents/live/STATUS.md` for the current coordination picture. Periodically read this file and the CHECKLIST for new tasks assigned to you.
 
 ## Where to find new work
